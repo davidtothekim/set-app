@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Header() {
     return(
         <>
-        <header className="header content-wrapper">
+        <header className="header">
             <div className="header__hero">
                 <img className="header__icon header__icon--logo"src={logo} alt="set logo"/> 
             </div>

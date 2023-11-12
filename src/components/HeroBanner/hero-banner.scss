@@ -1,0 +1,17 @@
+.hero-banner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 19.7rem;
+	background: url('../../assets/Images/haikyuu.webp');
+	background-size: cover;
+
+	margin-bottom: 2rem;
+
+	&__overlay {
+		height: 14.8rem;
+		background: #00000080;
+		width: 80%;
+	}
+}
