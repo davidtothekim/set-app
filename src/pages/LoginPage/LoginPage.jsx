@@ -1,5 +1,5 @@
 import './login-page.scss';
-import logo from '../../assets/icons/logo.svg';
+import logo from '../../assets/icons/logo-white.svg';
 
 import SocialLoginBttn from '../../components/SocialLoginBttn/SocialLoginBttn.jsx'
 
@@ -9,7 +9,7 @@ function LoginPage() {
         <main className="login-page">
 
             <div className="login-page__hero">
-                <img className="" src={logo} alt="set logo"/>
+                <img className="login-page__logo" src={logo} alt="set logo"/>
             </div>
 
             <div className="login-page__body">

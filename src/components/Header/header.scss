@@ -1,0 +1,56 @@
+.header {
+	display: flex;
+	flex-direction: column;
+	margin: 1rem 0 1.5rem 0;
+
+	&__hero {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-bottom: 1rem;
+	}
+
+	&__icon {
+		&--logo {
+			height: 3.84rem;
+			width: 10.44rem;
+		}
+
+		&--search {
+			position: absolute;
+			left: 1.4rem;
+			bottom: 1.4rem;
+		}
+	}
+
+	&__logo-icon {
+		height: 3.84rem;
+		width: 10.44rem;
+	}
+
+	&__user-aside {
+		width: 50%;
+	}
+
+	&__query-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__search-bar {
+		width: 85%;
+		position: relative;
+		border: 1px solid #d9d9d9;
+		padding: 1.6rem 0 1.6rem 4.1rem;
+		border-radius: 1px;
+		border-radius: 15px;
+	}
+
+	&__filter-menu {
+		height: 100%;
+		padding: 1.3rem;
+		border: 1px solid #d9d9d9;
+		border-radius: 20px;
+	}
+}
