@@ -12,12 +12,6 @@ function Header() {
             <div className="header__hero">
                 <img className="header__icon header__icon--logo"src={logo} alt="set logo"/> 
             </div>
-            {/* <dv className="header__user-aside">
-                <Link className="header__cta">Host game</Link>
-                <div className="header__profile-menu">
-
-                </div>
-            </dv> */}
             <div className="header__query-container">
                 <div className="header__search-bar">
                     <input type="text "className="header__search-input" placeholder="Where, when, add players"/>
