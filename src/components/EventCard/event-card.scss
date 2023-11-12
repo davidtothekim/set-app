@@ -1,0 +1,104 @@
+.event-card {
+	position: relative;
+	margin-bottom: 3.4rem;
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 16.4rem;
+		width: 16.1rem;
+		border-radius: 0.5rem;
+
+		// background: url('../../assets/Images/womens-volleyball.jpg');
+		// background-size: cover;
+		// opacity
+	}
+
+	&__body-background {
+		z-index: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 16.4rem;
+		width: 16.1em;
+		filter: brightness(65%);
+		border-radius: 0.5rem;
+		background: url('../../assets/Images/coed-volleyball.jpg');
+		background-size: cover;
+		background-position: center;
+	}
+
+	&__banner {
+		z-index: 1;
+		display: flex;
+		justify-content: space-between;
+
+		&--bottom {
+			align-items: center;
+		}
+	}
+
+	&__availbility-label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 3.6rem;
+		width: 9.6rem;
+		background: #1f5389;
+		border-radius: 1.5rem;
+	}
+
+	&__availbility {
+		color: #ffffff;
+		font-size: 1.2rem;
+		font-weight: 500;
+		letter-spacing: 0.1rem;
+	}
+
+	&__date {
+		font-size: 1.2rem;
+		font-weight: 500;
+		letter-spacing: 0.1rem;
+		margin: 0.9rem 0.9rem 0 0;
+	}
+
+	&__icon {
+		height: 2rem;
+		width: 2rem;
+		margin-left: 0.9rem;
+	}
+
+	&__price {
+		font-size: 1.2rem;
+		font-weight: 500;
+		color: #ffffff;
+		margin: 0.9rem 0.9rem 0.9rem 0;
+	}
+
+	&__footer {
+		margin-top: 0.6rem;
+	}
+
+	&__location {
+		margin: 0;
+		font-size: 1.3rem;
+		font-weight: 500;
+		line-height: 1.7rem;
+	}
+
+	&__date-time {
+		font-size: 1.2rem;
+		font-weight: 500;
+		margin: 0;
+		color: #949494;
+		line-height: 1.7rem;
+	}
+
+	&__type {
+		font-size: 1.4rem;
+		font-weight: 600;
+		margin: 0;
+		line-height: 1.7rem;
+	}
+}
