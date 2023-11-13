@@ -9,6 +9,7 @@
 		height: 16.4rem;
 		width: 16.1rem;
 		border-radius: 0.5rem;
+		background: linear-gradient(180deg, #ffffff 0%, #000000 100%);
 
 		// background: url('../../assets/Images/womens-volleyball.jpg');
 		// background-size: cover;
@@ -22,9 +23,10 @@
 		left: 0;
 		height: 16.4rem;
 		width: 16.1em;
-		filter: brightness(65%);
+		// filter: brightness(65%);
 		border-radius: 0.5rem;
 		background: url('../../assets/Images/coed-volleyball.jpg');
+		opacity: 0.5;
 		background-size: cover;
 		background-position: center;
 	}
