@@ -1,0 +1,57 @@
+.footer {
+	width: 100%;
+	padding: 0 4.4rem;
+
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 2.7rem;
+	}
+
+	&__col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+	}
+
+	&__header {
+		text-transform: uppercase;
+		font-size: 1.2rem;
+		font-weight: 600;
+		letter-spacing: 0.15rem;
+		line-height: 1.45rem;
+	}
+
+	&__links {
+		font-size: 1.2rem;
+		font-weight: 400;
+		letter-spacing: 0.15rem;
+		line-height: 1.45rem;
+
+		&--email {
+			color: #696969;
+		}
+	}
+
+	&__top {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 3.2rem;
+		background: #e3e3e3;
+	}
+
+	&__top-cta {
+		text-transform: uppercase;
+		color: #ffffff;
+		font-size: 1rem;
+		letter-spacing: 0.15rem;
+		font-weight: 600;
+	}
+
+	&__bottom {
+		height: 7.2rem;
+		background: #d9d9d9;
+		width: 100%;
+	}
+}

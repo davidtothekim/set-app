@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import PopularTagsBar from '../../components/PopularTagsBar/PopularTagsBar';
 import HeroBanner from '../../components/HeroBanner/HeroBanner';
 import EventCard from '../../components/EventCard/EventCard';
+import Footer from '../../components/Footer/Footer';
 
 function HomePage() {
     return(
@@ -33,6 +34,8 @@ function HomePage() {
 
                 </div>
             </div>
+
+            <Footer/>
 
         </main>
         </>
