@@ -13,5 +13,10 @@
 		font-weight: 600;
 		color: #173e67;
 		letter-spacing: 0.1rem;
+
+		&:hover {
+			cursor: pointer;
+			border-bottom: 2px solid #173e67;
+		}
 	}
 }

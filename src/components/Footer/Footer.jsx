@@ -20,31 +20,31 @@ function Footer() {
             <div className="footer__row">
                 <div className="footer__col">
                     <h3 className="footer__header">resources</h3>
-                    <a className="footer__links">Blog</a>
-                    <a className="footer__links">Help Center</a>
-                    <a className="footer__links">Contact Support</a>
-                    <a className="footer__links">Release notes</a>
-                    <a className="footer__links">Status</a>
+                    <a className="footer__links"><span className="footer__link-text">Blog</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Help Center</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Contact Support</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Release notes</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Status</span></a>
                 </div>
                 <div className="footer__col">
-                    <h3 className="footer__header">company</h3>
-                    <a className="footer__links">About us</a>
-                    <a className="footer__links">Careers</a>
-                    <a className="footer__links">Legal</a>
-                    <a className="footer__links">Privacy</a>
-                    <a className="footer__links">Terms of Use</a>
+                    <h3 className="footer__header"><span className="footer__link-text">Company</span></h3>
+                    <a className="footer__links"><span className="footer__link-text">About us</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Careers</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Legal</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Privacy</span></a>
+                    <a className="footer__links"><span className="footer__link-text">Terms of Use</span></a>
                 </div>
             </div>
 
             <div className="footer__row">
                 <div className="footer__col">
                     <h3 className="footer__header">Social</h3>
-                    <a className="footer__links">Twitter</a>
-                    <a className="footer__links">LinkedIn</a>
+                    <a className="footer__links"><span className="footer__link-text">Twitter</span></a>
+                    <a className="footer__links"><span className="footer__link-text">LinkedIn</span></a>
                 </div>
                 <div className="footer__col">
                     <h3 className="footer__header">contact us</h3>
-                    <a className="footer__links footer__links--email">info@set.com</a>
+                    <a className="footer__links footer__links--email"><span className="footer__link-text">info@set.com</span></a>
                 </div>
             </div>
 

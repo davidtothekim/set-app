@@ -46,6 +46,10 @@
 		padding: 1.6rem 0 1.6rem 4.1rem;
 		border-radius: 1px;
 		border-radius: 15px;
+
+		&:focus-within {
+			border: 1px solid #777777;
+		}
 	}
 
 	&__filter-menu {
