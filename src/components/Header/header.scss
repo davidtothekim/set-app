@@ -1,14 +1,28 @@
+//Import utils
+@use '../../styles/utils/' as u;
+
 .header {
 	display: flex;
 	flex-direction: column;
 	margin: 1rem 0 1.5rem 0;
 	padding: 0 1.6rem;
 
+	@include u.desktop {
+		flex-direction: row;
+		justify-content: space-between;
+		margin: 4.2rem 0 2.5rem 0;
+		padding: 0 6rem;
+	}
+
 	&__hero {
 		display: flex;
 		justify-content: center;
 		width: 100%;
 		margin-bottom: 1rem;
+
+		@include u.desktop {
+			width: auto;
+		}
 	}
 
 	&__icon {
@@ -50,6 +64,60 @@
 		&:focus-within {
 			border: 1px solid #777777;
 		}
+
+		&--mobile {
+			@include u.desktop {
+				display: none;
+			}
+		}
+
+		&--desktop {
+			position: relative;
+			display: none;
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+			padding-left: 2.5rem;
+			padding-right: 3.5rem;
+
+			@include u.desktop {
+				display: flex;
+				width: 100%;
+			}
+		}
+	}
+
+	&__search-bar-divider {
+		position: absolute;
+		top: 0;
+		height: 46px;
+		width: 1px;
+		background-color: #d9d9d9;
+
+		&--left {
+			left: 10.5rem;
+		}
+
+		&--right {
+			left: 23rem;
+		}
+	}
+
+	&__search-input-desktop::placeholder {
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: #000000;
+	}
+
+	&__search-bar-icon {
+		position: absolute;
+		top: 0.8rem;
+		right: 0.7rem;
+		height: 3rem;
+		width: 3rem;
+		border-radius: 50%;
+		background-color: #d9d9d9;
 	}
 
 	&__filter-menu {
@@ -57,5 +125,44 @@
 		padding: 1.3rem;
 		border: 1px solid #d9d9d9;
 		border-radius: 20px;
+
+		@include u.desktop {
+			display: none;
+		}
+	}
+
+	&__border {
+		height: 1px;
+		width: 100%;
+		background-color: #dbdbdb;
+	}
+
+	&__host-game-menu-container {
+		display: flex;
+		align-items: center;
+		gap: 1.9rem;
+	}
+
+	&__host-game-menu {
+		padding: 0.6rem 0.7rem 0.6rem 3rem;
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+		border-top-right-radius: 20px;
+		border-bottom-right-radius: 20px;
+		border: 1px solid #d9d9d9;
+	}
+
+	&__text {
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: #000000;
+		letter-spacing: 0.03rem;
+	}
+
+	&__host-game-icon {
+		height: 3rem;
+		width: 3rem;
+		border-radius: 50%;
+		background-color: #d9d9d9;
 	}
 }

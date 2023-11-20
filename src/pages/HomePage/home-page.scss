@@ -1,3 +1,6 @@
+// Imports
+@use '../../styles/utils/' as u;
+
 .home-page {
 	&__sub-header {
 		font-size: 1.6rem;
@@ -10,5 +13,11 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
+
+		@include u.desktop {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-template-rows: auto;
+		}
 	}
 }

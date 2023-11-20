@@ -1,0 +1,36 @@
+.google-maps-marker {
+	&__info-window-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__info-window-card-content {
+		text-align: center;
+		&--uppercase {
+			text-transform: uppercase;
+		}
+	}
+
+	&__info-window-card-header {
+		font-weight: 500;
+		font-size: 2rem;
+	}
+
+	&__info-window-poster {
+		height: 10rem;
+		width: 15rem;
+	}
+
+	&__link {
+		font-size: 1rem;
+		text-decoration: underline;
+
+		&:hover {
+			cursor: pointer;
+			color: #0e538c;
+			border-bottom: 1px solid #ffffff;
+		}
+	}
+}

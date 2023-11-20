@@ -1,0 +1,46 @@
+.button {
+	border: 1px solid #d9d9d9;
+	border-radius: 1rem;
+	padding: 1rem 0;
+	box-shadow: 0px 4px 4px 0px #00000040;
+	color: white;
+
+	&__text {
+		font-size: 1.2rem;
+		font-weight: 600;
+		text-align: center;
+		line-height: 1.45rem;
+		letter-spacing: 0.04rem;
+		margin: 0;
+	}
+
+	&--yellow {
+		border-color: #d7a73a;
+		background-color: #ffc239;
+	}
+
+	&--blue {
+		border: none;
+		background-color: #0e538c;
+	}
+
+	&--white {
+		color: #171717;
+	}
+
+	&--map {
+		border: none;
+		background-color: #15416e;
+		width: 15.7rem;
+		margin: 0 auto;
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+		border-top-right-radius: 20px;
+		border-bottom-right-radius: 20px;
+	}
+
+	&:hover {
+		cursor: pointer;
+		opacity: 0.8;
+	}
+}

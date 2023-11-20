@@ -1,11 +1,42 @@
+//Imports
+@use '../../styles/utils/' as u;
+
 .footer {
 	width: 100%;
-	padding: 0 4.4rem;
+	padding: 4.4rem 0rem;
+
+	@include u.desktop {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__divider {
+		display: none;
+
+		@include u.desktop {
+			margin-top: 17rem;
+			display: block;
+			width: 100%;
+			height: 1px;
+			background-color: #dbdbdb;
+		}
+	}
+
+	&__body {
+		@include u.desktop {
+			display: flex;
+			gap: 7.4rem;
+		}
+	}
 
 	&__row {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 2.7rem;
+
+		@include u.desktop {
+			gap: 7.4rem;
+		}
 	}
 
 	&__col {
@@ -20,6 +51,7 @@
 		font-weight: 600;
 		letter-spacing: 0.15rem;
 		line-height: 1.45rem;
+		color: #696969;
 	}
 
 	&__links {
@@ -27,6 +59,7 @@
 		font-weight: 400;
 		letter-spacing: 0.15rem;
 		line-height: 1.45rem;
+		color: #696969;
 
 		&--email {
 			color: #696969;
@@ -45,6 +78,10 @@
 		justify-content: center;
 		height: 3.2rem;
 		background: #e3e3e3;
+
+		@include u.desktop {
+			display: none;
+		}
 	}
 
 	&__top-cta {

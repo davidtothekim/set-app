@@ -1,17 +1,76 @@
+// Import utils
+@use '../../styles/utils/' as u;
+
 .hero-banner {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
 	height: 19.7rem;
-	background: url('../../assets/Images/haikyuu.webp');
 	background-size: cover;
 
 	margin-bottom: 2rem;
+
+	&__image {
+		background: url('../../assets/Images/hero.jpg');
+		background-size: cover;
+		background-position: center;
+		width: 65%;
+		height: 100%;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 35%;
+		padding: 0 3rem;
+	}
+
+	&__header {
+		text-align: center;
+		font-size: 3rem;
+		margin-bottom: 1.5rem;
+	}
+
+	&__content {
+		text-align: center;
+		font-size: 1.3rem;
+		margin-top: 0;
+	}
+
+	&__tags-container {
+		margin-top: 3rem;
+		display: flex;
+		gap: 4rem;
+	}
+
+	&__tag {
+		border-left: 3px solid #ffc239;
+		padding-left: 1rem;
+	}
+
+	&__tag-header {
+		margin: 0;
+		font-size: 2rem;
+	}
+
+	&__tag-content {
+		font-size: 1.2rem;
+		margin: 0;
+	}
 
 	&__overlay {
 		height: 14.8rem;
 		background: #00000080;
 		width: 80%;
+	}
+
+	@include u.desktop {
+		margin-top: 2rem;
+		height: 25rem;
+		margin-bottom: 6rem;
 	}
 }
