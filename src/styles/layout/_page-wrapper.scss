@@ -1,0 +1,8 @@
+// Utils
+@use '../utils/' as u;
+
+.page-wrapper {
+	@include u.desktop {
+		height: 832px;
+	}
+}

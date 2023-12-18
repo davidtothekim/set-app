@@ -1,0 +1,108 @@
+// Stylesheet
+import './host-game-page.scss';
+
+//Assets
+import backArrowIcon from '../../assets/icons/back-arrow-icon.svg';
+// Components
+import Header from '../../components/Header/Header';
+import FooterMobile from '../../components/FooterMobile/FooterMobile';
+import Button from '../../components/Button/Button';
+import HostGameForm from '../../components/HostGameForm/HostGameForm';
+
+// Helpers
+import pageContents from '../../utils/hostGamePageContent';
+
+// Dependencies
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+function HostGamePage() {
+	// Initialize navigate hook
+	const navigate = useNavigate();
+
+	// State to track the stage the user is currently at in overall process
+	const [ userStage, setUserStage ] = useState(0);
+
+	// Event Handlers
+	const handleClickNext = () => {
+		setUserStage((userStage) => userStage + 1);
+	};
+
+	const handleClickBack = () => {
+		setUserStage((userStage) => userStage - 1);
+	};
+
+	const handleClickHome = () => {
+		navigate('/');
+	};
+
+	// Functions
+	let createProgressBar = (userStage) => {
+		return (
+			<div className="host-game-page__progress-bar-container">
+				{Array(userStage + 1).fill(1).map((num, i) => {
+					return (
+						<div className="host-game-page__progress-bar host-game-page__progress-bar--selected" key={i} />
+					);
+				})}
+				{Array(2 - userStage).fill(1).map((num, i) => {
+					return <div className="host-game-page__progress-bar" key={i} />;
+				})}
+			</div>
+		);
+	};
+
+	return (
+		<div className="host-game-page">
+			<div className="host-game-page__header">
+				<Header />
+			</div>
+
+			<main className="host-game-page__main content-wrapper">
+				<section className="host-game-page__form">
+					<div className="host-game-page__nav-link">
+						<img className="host-game-page__nav-icon" src={backArrowIcon} alt="back-arrow" />
+						<a
+							className="host-game-page__nav-text"
+							onClick={userStage === 0 ? handleClickHome : handleClickBack}
+						>
+							{pageContents[userStage].navLink.text}
+						</a>
+					</div>
+					{createProgressBar(userStage)}
+					<HostGameForm stage={userStage} />
+				</section>
+
+				<img
+					className={`host-game-page__hero-image host-game-page__hero-image--${pageContents[userStage].image
+						.name}`}
+					src={pageContents[userStage].image.url}
+				/>
+
+				<div className="host-game-page__button-container">
+					<div style={{ visibility: `${userStage === 0 ? 'hidden' : 'visible'}` }}>
+						<div className="host-game-page__mobile-container">
+							<Button text="Back" types={[ 'hyperlink', 'small' ]} onClick={handleClickBack} />
+						</div>
+					</div>
+					<Link className="host-game-page__desktop-container" to={'/'}>
+						<p>Cancel</p>
+					</Link>
+					<div className="host-game-page__desktop-container" to={'/'}>
+						<Button text="Next" types={[ 'blue', 'small' ]} onClick={handleClickNext} />
+					</div>
+					<div className="host-game-page__mobile-container" to={'/'}>
+						<Button text="Next" types={[ 'grey', 'small' ]} onClick={handleClickNext} />
+					</div>
+				</div>
+			</main>
+
+			<footer className="host-game-page__footer">
+				<FooterMobile />
+			</footer>
+		</div>
+	);
+}
+
+export default HostGamePage;

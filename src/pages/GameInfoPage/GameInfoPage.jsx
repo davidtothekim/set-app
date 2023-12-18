@@ -164,13 +164,6 @@ function GameInfoPage() {
                     </div>
                 </div>
 
-
-
-
-
-
-
-
             </div>
 
             <Footer/>

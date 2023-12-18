@@ -1,0 +1,30 @@
+// Utils
+@use '../../styles/utils/' as u;
+
+.footer-mobile {
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+	height: 10rem;
+	background-color: #1f5389;
+
+	&__link {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__text {
+		color: white;
+		font-size: 11px;
+		font-weight: 500;
+		margin: 0;
+	}
+
+	@include u.desktop {
+		display: none;
+	}
+}

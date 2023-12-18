@@ -1,0 +1,24 @@
+// Utils
+@use '../../styles/utils/' as u;
+
+.add-players-counter {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+
+	&__count {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3.4rem;
+		height: 2.3rem;
+		border: 1px solid #d9d9d9;
+		border-radius: 30px;
+	}
+
+	&__text {
+		margin: 0;
+		font-size: 1.5rem;
+		color: #5d5d5d;
+	}
+}

@@ -39,18 +39,35 @@ li {
 	list-style: none;
 }
 
-input {
+input,
+select {
 	border: none;
 	font-size: 1.2rem;
 	width: 100%;
 	padding: 0;
 }
 
-input:focus {
+textarea {
+	font-family: 'Inter', sans-serif;
+	border-radius: 1rem;
+	border: 1px solid #dbdbdb;
+	padding: 1rem;
+	resize: none;
+}
+
+input:focus,
+select:focus {
 	outline: none;
 }
 
-input::placeholder {
+input::placeholder,
+select::placeholder {
+	font-size: 1.3rem;
+	font-weight: 400;
+	color: #8a8a8a;
+}
+
+select {
 	font-size: 1.3rem;
 	font-weight: 400;
 	color: #8a8a8a;

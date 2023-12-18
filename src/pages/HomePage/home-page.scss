@@ -2,11 +2,53 @@
 @use '../../styles/utils/' as u;
 
 .home-page {
+	position: relative;
+	height: 100%;
+	z-index: 1;
+
 	&__sub-header {
 		font-size: 1.6rem;
 		font-weight: 400;
 		letter-spacing: 0.2rem;
 		margin-bottom: 2rem;
+	}
+
+	&__main {
+		min-height: calc(100vh - 200px);
+		height: fit-content;
+		padding-bottom: 5rem;
+	}
+
+	// &__overlay {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	background: black;
+	// 	opacity: 0.5;
+	// 	z-index: 0;
+	// 	width: 100%;
+	// 	height: 100vh;
+	// }
+
+	&__hero {
+		min-height: 19.7rem;
+		height: 50%;
+		background-image: url('../../assets/Images/hero.jpg');
+		background-size: cover;
+		background-position: center;
+		margin-bottom: 3.3rem;
+
+		@include u.tablet {
+			max-height: none;
+		}
+
+		@include u.desktop {
+			height: 30rem;
+		}
+	}
+
+	&__content-container {
+		padding: 0 2.5rem;
 	}
 
 	&__events-container {
@@ -18,6 +60,15 @@
 			display: grid;
 			grid-template-columns: repeat(5, 1fr);
 			grid-template-rows: auto;
+		}
+	}
+
+	&__footer {
+		width: 100%;
+		padding-bottom: 10rem;
+
+		@include u.desktop {
+			padding-bottom: 0;
 		}
 	}
 }

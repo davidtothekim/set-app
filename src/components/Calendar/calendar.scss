@@ -1,0 +1,162 @@
+.calendar {
+	font-size: 1.2rem;
+	font-weight: 600;
+	width: 33rem;
+	color: #1f5389;
+
+	&__header {
+	}
+
+	&__month {
+		text-align: center;
+		font-size: 1.6rem;
+		font-weight: 500;
+	}
+
+	&__body {
+		display: grid;
+		grid-template-columns: repeat(15, 1fr);
+		grid-template-rows: auto;
+		row-gap: 13px;
+	}
+
+	&__list {
+		display: flex;
+		justify-content: space-between;
+		grid-column: 2 / 15;
+		margin: 0;
+
+		&--days {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			align-items: center;
+		}
+	}
+
+	&__list-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 23px;
+		margin: 0 auto;
+
+		&--daterange {
+			width: 100%;
+		}
+
+		&--orange {
+			background-color: orange;
+		}
+	}
+
+	&__weekday {
+		margin: 0;
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: #7e818c;
+	}
+
+	&__day {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 0;
+		margin-bottom: 0;
+		cursor: pointer;
+		border-radius: 38px;
+		height: 23px;
+		width: 23px;
+
+		&:hover {
+			color: white;
+			background-color: #1f5389;
+		}
+
+		&--filler {
+			cursor: default;
+			&:hover {
+				background-color: white;
+				color: #1f5389;
+			}
+		}
+
+		&--selected {
+			color: white;
+			background-color: #1f5389;
+		}
+
+		&--daterange {
+			width: 100%;
+			border-radius: 0;
+			background-color: #edf2f8e7;
+		}
+	}
+
+	// &__month {
+	// 	font-size: 1.6rem;
+	// 	font-weight: 500;
+	// 	letter-spacing: 1px;
+	// 	text-align: center;
+	// }
+
+	// &__list {
+	// 	display: flex;
+	// 	list-style: none;
+	// 	flex-wrap: wrap;
+	// 	text-align: center;
+	// 	margin: 0;
+	// }
+
+	// &__list-item {
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	width: calc(100% / 7);
+	// 	margin-bottom: 0;
+	// 	margin-top: 13px;
+	// }
+
+	// &__weekday {
+	// 	font-size: 0.9rem;
+	// 	font-weight: 500;
+	// 	color: #7e818c;
+	// 	margin: 0;
+	// }
+
+	// &__day {
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	height: 23px;
+	// 	width: 23px;
+	// 	border-radius: 38px;
+	// 	text-align: center;
+	// 	margin: 0;
+	// 	cursor: pointer;
+
+	// 	&:hover {
+	// 		color: white;
+	// 		background-color: #1f5389;
+	// 	}
+	// }
+
+	// 	&__day {
+	// 		display: flex;
+	// 		justify-content: center;
+	// 		align-items: center;
+	// 		height: 23px;
+	// 		width: 23px;
+	// 		border-radius: 38px;
+	// 		cursor: pointer;
+
+	// 		&--active {
+	// 			background-color: #1f5389;
+	// 			color: white;
+	// 		}
+
+	// 		&:hover {
+	// 			background-color: #1f5389;
+	// 			color: white;
+	// 		}
+	// 	}
+}

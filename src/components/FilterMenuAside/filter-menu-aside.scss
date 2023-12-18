@@ -1,0 +1,85 @@
+// Utils
+@use '../../styles/utils/' as u;
+
+.filter-menu-aside {
+	position: absolute;
+	padding: 2.3rem;
+	top: 0;
+	right: 0;
+	min-width: 29rem;
+	// height: 100%;
+	z-index: 2;
+	background-color: white;
+	border: 1.2px solid #d9d9d9;
+	font-size: 1.2rem;
+	font-weight: 500;
+
+	@include u.desktop {
+		display: none;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: 4.3rem;
+		padding: 1.7rem 0;
+	}
+
+	&__filter {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		gap: 1.1rem;
+	}
+
+	&__filter-option {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-top: 3rem;
+	}
+
+	&__divider {
+		width: calc(100% + 4.6rem);
+		margin-left: -2.3rem;
+		height: 1px;
+		background-color: #d9d9d9;
+	}
+
+	&__checkbox {
+		width: min-content;
+	}
+
+	&__subtitle {
+		font-size: 1.4rem;
+		font-weight: 600;
+		margin: 0 0 1.9rem 0;
+		text-align: center;
+	}
+
+	&__title {
+		margin: 0;
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 1.2rem;
+	}
+
+	&__filter-name {
+		margin: 0;
+		letter-spacing: 0.1rem;
+	}
+
+	&__CTA {
+		margin: 0;
+		text-decoration: underline;
+		letter-spacing: 0.05rem;
+	}
+}
