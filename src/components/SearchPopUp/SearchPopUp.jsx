@@ -44,7 +44,6 @@ function SearchPopUp() {
 				}}>
 					<p className="search-pop-up__text">When</p>
 					{ !toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="search-pop-up__text search-pop-up__text--gray">Choose dates</p>}
-
 					{ !toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' &&  toggleComponents.calendar.selectedDayEnd!== '') && <p className="search-pop-up__text search-pop-up__text--gray">{`${new Date(toggleComponents.calendar.selectedDayStart).toLocaleDateString('en-us', {month: 'short', day:'numeric', year:'numeric'})} - ${new Date(toggleComponents.calendar.selectedDayEnd).toLocaleDateString('en-us', {month: 'short', day: 'numeric', year:'numeric'})}`}</p>}
 					{ !toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="search-pop-up__text search-pop-up__text--gray">{new Date(toggleComponents.calendar.selectedDayStart).toLocaleDateString('en-us', {month: 'short', day: 'numeric', year: 'numeric'})}</p>}
 

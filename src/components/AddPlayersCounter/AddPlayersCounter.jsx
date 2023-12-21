@@ -35,10 +35,10 @@ function AddPlayersCounter({ onClick }) {
 			<div className="add-players-counter__icon" onClick={handleMinusClick}>
 				<img className="add-players-counter__minus-icon" src={minusIcon} alt="minus" />
 			</div>
-			<div className="add-players-counter__count" onClick={handlePlusClick}>
+			<div className="add-players-counter__count">
 				<p className="add-players-counter__text">{toggleComponents.addPlayersCounter.count}</p>
 			</div>
-			<div className="add-players-counter__icon">
+			<div className="add-players-counter__icon" onClick={handlePlusClick}>
 				<img className="add-players-counter__plus-icon__plus-icon" src={plusIcon} alt="plus" />
 			</div>
 		</div>

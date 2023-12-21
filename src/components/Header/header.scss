@@ -8,7 +8,6 @@
 
 	@include u.desktop {
 		flex-direction: row;
-		align-items: center;
 		justify-content: space-between;
 		margin: 4.2rem 0 2.5rem 0;
 		padding: 0 6rem;
@@ -71,13 +70,13 @@
 		display: none;
 
 		@include u.desktop {
-			padding-left: 2.3rem;
 			position: relative;
+			border-radius: 20px;
 			display: flex;
-			justify-content: space-between;
-			width: 66rem;
+			width: 69rem;
 			height: 5.4rem;
 			border: 1px solid #d9d9d9;
+			margin-bottom: 1.2rem;
 		}
 	}
 
@@ -87,18 +86,38 @@
 		justify-content: center;
 		height: 100%;
 		gap: 0.3rem;
-		width: 17rem;
 		cursor: pointer;
 
 		&--location {
-			padding-right: 2.5rem;
+			padding-left: 2.3rem;
+			width: 16rem;
+			border-right: 1px solid #d9d9d9;
+			// padding-right: 2.5rem;
+
+			&:hover {
+				border-top-left-radius: 20px;
+				border-bottom-left-radius: 20px;
+			}
+
+			&:hover * {
+				background-color: #d9d9d9;
+			}
 		}
 
 		&--date {
-			width: 28rem;
-			padding: 0 2.5rem;
+			width: 29rem;
+			padding-left: 2.5rem;
+		}
+
+		&--players {
+			width: 24rem;
+			padding-left: 2.5rem;
 			border-left: 1px solid #d9d9d9;
-			border-right: 1px solid #d9d9d9;
+
+			&:hover {
+				border-top-right-radius: 20px;
+				border-bottom-right-radius: 20px;
+			}
 		}
 
 		::placeholder {
@@ -108,6 +127,10 @@
 		}
 
 		@include u.desktop {
+		}
+
+		&:hover {
+			background-color: #d9d9d9;
 		}
 	}
 
@@ -201,6 +224,7 @@
 
 	&__host-game {
 		display: flex;
+		height: 4rem;
 	}
 
 	&__text {
@@ -222,6 +246,24 @@
 		align-items: center;
 		border-radius: 50%;
 		right: 6px;
+	}
+
+	&__search-cta {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		right: 1rem;
+		height: 3.6rem;
+		width: 9rem;
+		background-color: #ffc239;
+		border-radius: 20px;
+	}
+
+	&__cta {
+		color: white;
+		font-size: 1.4rem;
+		margin: 0;
 	}
 
 	&__host-game {
@@ -249,5 +291,32 @@
 		width: 2.9rem;
 		border-radius: 50%;
 		background-color: #d9d9d9;
+	}
+
+	&__add-players {
+		margin-left: auto;
+		height: 8rem;
+		width: 32rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 3.2rem;
+		border-radius: 15px;
+		box-shadow: 0px 4.75px 19px 0px #0000000D;
+	}
+
+	&__text {
+		font-size: 1.4rem;
+		margin: 0;
+		font-weight: 500;
+		color: #1f5389;
+	}
+
+	&__desktop-container {
+		display: none;
+
+		@include u.desktop {
+			display: block;
+		}
 	}
 }

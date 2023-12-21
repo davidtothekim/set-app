@@ -8,7 +8,7 @@ import Calendar from '../Calendar/Calendar';
 import { useContext, useState } from 'react';
 import { HomeContext } from '../../context/HomeContext';
 
-function CalendarWidget() {
+function CalendarWidget({ onClick }) {
 	// State
 	const [ dateHover, setDateHover ] = useState();
 
@@ -16,7 +16,7 @@ function CalendarWidget() {
 	let { toggleComponents } = useContext(HomeContext);
 
 	return (
-		<div className="calendar-widget">
+		<div className="calendar-widget" onClick={onClick}>
 			<Calendar month={toggleComponents.calendar.monthStart} dateHover={dateHover} setDateHover={setDateHover} />
 			<Calendar month={toggleComponents.calendar.monthEnd} dateHover={dateHover} setDateHover={setDateHover} />
 		</div>

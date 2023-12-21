@@ -56,7 +56,6 @@ function HomePage() {
         }
     })
 
-
     // Functions
     // Click handler to toggle the components within the toggleC state 
     const handleToggleClick = (component) => {

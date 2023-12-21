@@ -1,265 +1,176 @@
-// Styles
-import './calendar.scss';
+import './game-info-page.scss';
+import rankingIcon from '../../assets/icons/ranking-icon.svg'
+import genderIcon from '../../assets/icons/coed-icon-navy.svg'
+import courtIcon from '../../assets/icons/court-icon.svg'
+import confirmIcon from '../../assets/icons/confirm-icon.svg'
+import peopleIcon from '../../assets/icons/people-icon.jpg'
+import plusIcon from '../../assets/icons/plus-icon.svg'
+import minusIcon from '../../assets/icons/minus-icon.svg'
+import calendarIcon from '../../assets/icons/calendar-icon.svg'
+import locationIcon from '../../assets/icons/location-icon.svg'
 
-// Dependencies
-import { useContext, useState, useEffect } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import Button from '../../components/Button/Button'
 
-function Calendar({ month }) {
-	console.log(month)
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import moment from "moment";
+
+function GameInfoPage() {
+
+    // Capture game id from URL
+    const {gameId} = useParams();
+
+    // Express Server URL
+    const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+
+        // State for the game that should be displayed on the page
+        const [game, setGame] = useState({});
+
+        useEffect(
+            () => {
+            (async () => {
+                let game = await axios.get(`${SERVER_URL}/games/${gameId}`).then((res) => res.data[0]);
+                setGame({...game,
+                    "price": game.price.toFixed(2),
+                    "service_fee": game["service_fee"].toFixed(2),
+                    "total_price": (game.price + game["service_fee"]).toFixed(2),
+                    "date": moment(game.date, 'M/D/Y').format('dddd MMMM D Y')
+                })
+            })();
+        }, [])
 
 
-	// State
-	// Track what date the user is hovering over
-	const [ dateHover, setDateHover ] = useState();
+    return(
+        <>
+        <main className="game-info-page">
+            {/* <Header/> */}
 
-	// Variables
-	// HomeContext
-	const { toggleComponents, setToggleComponents } = useContext(HomeContext);
+            <div className="game-info-page__hero container-wrapper">
+                <h1 className="game-info-page__hero-title">Coed Intermediate 6v6</h1>
+            </div>
 
-	// Dates
-	let dateRangeStart = toggleComponents.calendar.selectedDayStart;
-	let dateRangeEnd = toggleComponents.calendar.selectedDayEnd;
+            <div className="game-info-page__body container-wrapper">
 
-	// Functions
-	// Helpers
-	const setSelectedDate = (i) => {
-		// If there is no selectedDayStart then update selectedDayStart
-		if (toggleComponents.calendar.selectedDayStart === '') {
-			console.log("theres no starting day!")
-			setToggleComponents({
-				...toggleComponents,
-				calendar: { ...toggleComponents.calendar, selectedDayStart: i }
-			});
-			console.log(
-				`selectedDayStart: ${toggleComponents.calendar.selectedDayStart}, selectedDayEnd: ${toggleComponents
-					.calendar.selectedDayEnd}`
-			);
-		}
+                <div className="game-info-page__aside-left">
 
-		// If there is a selectedDayStart date and the date is 'bigger' then the selectedDayStart update the selectedDayEnd
-		if (toggleComponents.calendar.selectedDayStart !== '') {
-			if (i > toggleComponents.calendar.selectedDayStart) {
-				setToggleComponents({
-					...toggleComponents,
-					calendar: { ...toggleComponents.calendar, selectedDayEnd: i }
-				});
-			}
-			console.log(
-				`selectedDayStart: ${toggleComponents.calendar.selectedDayStart}, selectedDayEnd: ${toggleComponents
-					.calendar.selectedDayEnd}`
-			);
-		}
+                    <p className="game-info-page__sub-header">Date & Time</p>
+                        <div className="game-info-page__content-container game-info-page__content-container--indent">
+                            <img className="game-info-page__icon game-info-page__icon--calendar" src={calendarIcon} alt="calendar icon"/>
+                            <div className="game-info-page__content-container">
+                                <p className="game-info-page__content">{game.date}</p>
+                                <p className="game-info-page__content">{`${game.start_time}`} - {game.end_time} EDT</p>
+                            </div>
+                        </div>
+                    
+                    <p className="game-info-page__sub-header">Location</p>
+                        <div className="game-info-page__content-container game-info-page__content-container--indent game-info-page__content-container--location">
+                            <div className="game-info-page__content-container game-info-page__content-container--address">
+                                <img className="game-info-page__icon game-info-page__icon--location" src={locationIcon} alt="location pin icon"/>
+                                <div className="game-info-page__content-container">
+                                    <p className="game-info-page__content">{game.location}</p>
+                                    <p className="game-info-page__content game-info-page__content--address">{game.address}</p>
+                                </div>
+                            </div>
+                            <div className="game-info-page__content-placeholder"></div>
+                        </div>
 
-		// If there is a selectedDayStart and a selectedDayEnd
-		if (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd !== '') {
-			// If the selected day is larger than the selectedDayStart then updated the selectedDayEnd
-			if (i > toggleComponents.calendar.selectedDayStart) {
-				setToggleComponents({
-					...toggleComponents,
-					calendar: { ...toggleComponents.calendar, selectedDayEnd: i }
-				});
-			}
+                    <p className="game-info-page__sub-header">Game Info</p>
+                        <div className="game-info-page__tags-container">
+                            <div className="game-info-page__tag-container">
+                                <img className="game-info-page__icon" src={rankingIcon} alt="icon of rankings podium"/>
+                                <p className="game-info-page__content game-info-page__content--tag">{game.skill_level}</p>
+                            </div>
+                            <div className="game-info-page__tag-container">
+                                <img className="game-info-page__icon" src={genderIcon} alt="icon of coed gender sign"/>
+                                <p className="game-info-page__content game-info-page__content--tag">{game.gender}</p>
+                            </div>
+                            <div className="game-info-page__tag-container">
+                                <img className="game-info-page__icon" src={courtIcon} alt="icon of coed gender sign"/>
+                                <p className="game-info-page__content game-info-page__content--tag">Indoor Court</p>
+                            </div>
+                        </div>
+                        
+                    <p className="game-info-page__sub-header">Additional Info</p>
+                        <div className="game-info-page__content-container">
+                            <p className="game-info-page__content">{game.description}</p>
+                            <p className="game-info-page__content">--</p>
+                            <p className="game-info-page__content">Net Height: {game.gender}</p>
+                        </div>
 
-			// If the selected day is smaller than the selectedDayStart then reset both selectedDayStart and selectedDayEnd
-			if (i < toggleComponents.calendar.selectedDayStart) {
-				console.log("resetting selectedDates!")
-				setToggleComponents({
-					...toggleComponents,
-					calendar: { ...toggleComponents.calendar, selectedDayStart:i, selectedDayEnd: ''}
-				});
-			}
-		}
+                    <p className="game-info-page__sub-header">Cancellation Policy</p>
+                        <div className="game-info-page__content-container">
+                            <p className="game-info-page__content">{game.cancellation_policy}</p>
+                        </div>
+                </div>
 
-		// If there is a selectedDayStart and the date is 'smaller' than update the selectedDayStart
-		// if (toggleComponents.calendar.selectedDayStart !== '' && i < toggleComponents.calendar.selectedDayStart) {
-		// 	setToggleComponents({
-		// 		...toggleComponents,
-		// 		calendar: { ...toggleComponents.calendar, selectedDayStart: i }
-		// 	});
-		// 	console.log(
-		// 		`selectedDayStart: ${toggleComponents.calendar.selectedDayStart}, selectedDayEnd: ${toggleComponents
-		// 			.calendar.selectedDayEnd}`
-		// 	);
-		// }
+                <div className="game-info-page__aside-right">
+                    <div className="game-info-page__aside-right-top">
+                        <div className="game-info-page__content-container game-info-page__content-container--price">
+                            <p className="game-info-page__content game-info-page__content--price"><span className="game-info-page__content game-info-page__content--large">${game.price}</span> per player</p>
+                            <p className="game-info-page__content game-info-page__content--hyperlink">See All</p>
+                        </div>
+                        <div className="game-info-page__status-container">
+                            <div className="game-info-page__status-tag game-info-page__status-tag--left">
+                                <p className="game-info-page__content">Going</p>
+                                <img className="game-info-page__icon" src={confirmIcon}/>
+                                <p className="game-info-page__content">{game.players_current}/{game.players_limit}</p>
+                            </div>
+                            <div className="game-info-page__status-tag">
+                                <p className="game-info-page__content">Spots Left</p>
+                                <img className="game-info-page__icon" src={peopleIcon}/>
+                                <p className="game-info-page__content">{game.players_limit - game.players_current}</p>
+                            </div>
+                        </div>
+                        <Button text="Join game" type="yellow" types={["yellow"]}/>
+                        <div className="game-info-page__content-container game-info-page__content-container--players">
+                            <p className="game-info-page__content">Players</p>
+                            <div className="game-info-page__players-counter">
+                                <img className="game-info-page__icon game-info-page__icon--plus-minus"src={minusIcon} alt="minus icon"/>
+                                <div className="game-info-page__players-count">2</div>
+                                <img className="game-info-page__icon game-info-page__icon--plus-minus" src={plusIcon} alt="plus icon"/>
+                            </div>
+                        </div>
+                        <div className="game-info-page__content-container game-info-page__content-container--calculation">
+                            <div className="game-info-page__price-calculation">
+                                <p className="game-info-page__content game-info-page__content--underline">${game.price} x 1 players</p>
+                                <p className="game-info-page__content">${game.price}</p>
+                            </div>
+                            <div className="game-info-page__price-calculation">
+                                <p className="game-info-page__content game-info-page__content--underline">Service fee</p>
+                                <p className="game-info-page__content">${game.service_fee}</p>
+                            </div>
+                        </div>
+                        <div className="game-info-page__content-container game-info-page__content-container--total-price">
+                            <p className="game-info-page__content game-info-page__content--bold">TOTAL</p>
+                            <p className="game-info-page__content">${game.total_price}</p>
+                        </div>
+                    </div>
 
-	};
+                    <Button text="Share game" type="blue" types={["blue"]}/>
+                    <Button text="Message Host" type="white" types={["white"]}/>
 
-	// Event Handlers
-	const handleMouseOver = (e) => {
-		// If start date and end date are not null then just return without updating the dateHover state
-		if (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd !== '') {
-			setDateHover('')
-			return;
-		}
+                    <div className="game-info-page__aside-right-bottom">
+                        <div className="game-info-page__content-container game-info-page__content-container--profile">
+                            <img className="game-info-page__icon game-info-page__icon--user" src={"https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c"} alt="profile picture of user"/>
+                            <div className="game-info-page__user-container">
+                                <p className="game-info-page__content game-info-page__content--bold">Kathy Dang</p>
+                                <p className="game-info-page__content">Host</p>
+                            </div>
+                        </div>
+                        <p className="game-info-page__content">Hi everyone, I will be hosting the court rental. I started volleyball 3 years ago, I mainly play outside hitter and consider myself an intermediate player. This will be my first time hosting, if you have any questions on the run please message me on this platform. Looking forward to the games! -- KD</p>
+                    </div>
+                </div>
 
-		setDateHover(e.target.innerText);
-	};
+            </div>
 
-	let dateStart = toggleComponents.calendar.selectedDayStart;
-	let dateEnd = toggleComponents.calendar.selectedDayEnd;
+            <Footer/>
 
-	console.log(`dateStart is ${dateStart}`, `dateEnd is ${dateEnd}`)
-
-	// Renders
-	let createCalendarListItem = (i) => {
-		
-		// If a user clicks and selects a date that is equal to the selectedDayStart or selectedDayEnd
-		if (i === dateRangeStart || i === dateRangeEnd) {
-			return (
-				<li
-					onMouseOver={handleMouseOver}
-					className="calendar__list-item"
-					key={i}
-					onClick={() => {
-						setSelectedDate(i);
-					}}
-				>
-					<p className="calendar__day calendar__day--selected">{i + 1}</p>
-				</li>
-			);
-		}
-
-		// If there is a selectedDayStart
-		if (dateRangeStart !== '') {
-			// Then check if the calendar date is greater than the selected date and smaller than the date the user is currently hovering over
-			// This means that these dates should be highlighted in blue as the user hovers over different dates to indicate the date range they would be selecting
-			if (i > dateRangeStart && i < dateHover - 1) {
-				return (
-					<li
-						onMouseOver={handleMouseOver}
-						className="calendar__list-item calendar__list-item--daterange"
-						key={i}
-						onClick={() => {
-							setSelectedDate(i);
-						}}
-					>
-						<p className="calendar__day calendar__day--daterange">{i + 1}</p>
-					</li>
-				);
-			}
-		}
-
-		// If there is a selectedDayStart and a selectedDayEnd
-		if (dateRangeStart!== "" && dateRangeEnd !== "") {
-			// If the date is between the selectedDayStart and selectedDayEnd
-			if (i > dateRangeStart && i < dateRangeEnd) {
-				return (
-					<li
-						onMouseOver={handleMouseOver}
-						className="calendar__list-item calendar__list-item--daterange"
-						key={i}
-						onClick={() => {
-							setSelectedDate(i);
-						}}
-					>
-						<p className="calendar__day calendar__day--daterange">{i + 1}</p>
-					</li>
-				);
-			} else {
-				return (					<li
-					id = {i}
-					onMouseOver={handleMouseOver}
-					className="calendar__list-item"
-					key={i}
-					onClick={() => {
-						setSelectedDate(i);
-					}}
-				>
-					<p className="calendar__day">{i + 1}</p>
-				</li>)
-			}
-		}
-
-		if (dateRangeStart === "") {
-			return (
-				<li
-				id={i}
-				onMouseOver={handleMouseOver}
-				className="calendar__list-item"
-				key={i}
-				onClick={() => {
-					setSelectedDate(i);
-				}}
-			>
-				<p className="calendar__day">{i + 1}</p>
-			</li>
-
-			)
-		}
-
-		// If niether of the conditions above apply, just return a normal list item
-		return (
-			<li
-				id={i}
-				onMouseOver={handleMouseOver}
-				className="calendar__list-item"
-				key={i}
-				onClick={() => {
-					setSelectedDate(i);
-				}}
-			>
-				<p className="calendar__day">{i + 1}</p>
-			</li>
-		);
-	};
-
-	return (
-		<>
-		<p>SelectedDayStart: {toggleComponents.calendar.selectedDayStart}</p>
-		<p>SelectedDayEnd: {toggleComponents.calendar.selectedDayEnd}</p>
-		<p>DateHover: {dateHover}</p>
-		<div className="calendar">
-			<header className="calendar__header">
-				<p className="calendar__month">{`${month.month} ${month.year}`}</p>
-				<div className="calendar__icons" />
-			</header>
-
-			<div className="calendar__body">
-				<ul className="calendar__list">
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">S</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">M</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">T</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">W</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">TH</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">F</p>
-					</li>
-					<li className="calendar__list-item">
-						<p className="calendar__weekday">S</p>
-					</li>
-				</ul>
-
-				<ul className="calendar__list calendar__list--days">
-					{month.firstDaysofMonth.map((num, i) => {
-						return (
-							<li className="calendar__list-item" key={i}>
-								<p className="calendar__day calendar__day--filler" />
-							</li>
-						);
-					})}
-
-					{month.lastDatesofMonth.map((num, i) => {
-						return (
-
-							createCalendarListItem(i)
-						);
-					})}
-				</ul>
-			</div>
-		</div>
-		</>
-	);
+            </main>
+        </>
+    )
 }
 
-export default Calendar;
+export default GameInfoPage;
