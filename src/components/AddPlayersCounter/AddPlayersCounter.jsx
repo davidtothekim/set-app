@@ -7,12 +7,11 @@ import minusIcon from '../../assets/icons/minus-icon.svg';
 
 // Dependencies
 import { useContext } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 function AddPlayersCounter({ onClick }) {
-	// Variables
 	// Home Context
-	let { toggleComponents, setToggleComponents } = useContext(HomeContext);
+	let { toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
 
 	// Functions
 	// Event Handlers

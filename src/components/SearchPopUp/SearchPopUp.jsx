@@ -12,12 +12,12 @@ import AddPlayersCounter from '../../components/AddPlayersCounter/AddPlayersCoun
 
 // Dependencies
 import { useContext } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 function SearchPopUp() {
-	// Variables
-	// Home Context
-	let { handleToggleClick, toggleComponents, resetToggleComponents, setToggleComponents } = useContext(HomeContext);
+
+	// ToggleComponents Context
+	let { handleToggleClick, toggleComponents, resetToggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
 
 	return (
 		<div className="search-pop-up">
@@ -61,7 +61,6 @@ function SearchPopUp() {
 				<div className="search-pop-up__content" onClick={() => {handleToggleClick('addPlayersCounter')}}>
 					<p className="search-pop-up__text">Who</p>
 					{toggleComponents.addPlayersCounter.isToggled ? <AddPlayersCounter onClick={(e) => e.stopPropagation()}/> : <p className="search-pop-up__text search-pop-up__text--gray">Add players</p>}
-					{/* <p className="search-pop-up__text search-pop-up__text--gray">Add players</p> */}
 				</div>
 			</div>
 

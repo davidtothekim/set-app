@@ -6,14 +6,15 @@ import Calendar from '../Calendar/Calendar';
 
 // Dependencies
 import { useContext, useState } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 function CalendarWidget({ onClick }) {
 	// State
+	// Tracks what date the user is hovering over
 	const [ dateHover, setDateHover ] = useState();
 
-	// Context Variables
-	let { toggleComponents } = useContext(HomeContext);
+	// ToggleComponents Context
+	let { toggleComponents } = useContext(ToggleComponentsContext);
 
 	return (
 		<div className="calendar-widget" onClick={onClick}>

@@ -3,7 +3,6 @@ import './header.scss';
 
 // Assets
 import logo from '../../assets/icons/logo-navy.svg';
-import searchIcon from '../../assets/icons/search-icon-white.svg';
 import searchIconGrey from '../../assets/icons/search-icon-darkgrey.svg'
 import filterIcon from '../../assets/icons/filter-icon.svg';
 
@@ -14,18 +13,18 @@ import AddPlayersCounter from '../AddPlayersCounter/AddPlayersCounter';
 // Dependencies
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import {ToggleComponentsContext} from '../../context/ToggleComponentsContext';
 
 // Helper
 import formatDate from '../../utils/formatDate';
 
 
 function Header() {
-    // Functions
+
+    // ToggleComponents Context
+    const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
 
     // Variables
-    // Home Context
-    const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(HomeContext);
     let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
     let dateEndFormatted = formatDate(toggleComponents.calendar.selectedDayEnd);
 

@@ -6,11 +6,11 @@ import Button from '../../components/Button/Button';
 
 // Dependencies
 import { useContext } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 function FilterMenuAside() {
-	//Functions
-	const { handleToggleClick } = useContext(HomeContext);
+	// ToggleComponents Context
+	const { handleToggleClick } = useContext(ToggleComponentsContext);
 
 	return (
 		<aside className="filter-menu-aside">

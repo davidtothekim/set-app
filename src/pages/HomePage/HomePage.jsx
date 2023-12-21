@@ -12,60 +12,24 @@ import FooterMobile from '../../components/FooterMobile/FooterMobile';
 import FilterMenuAside from '../../components/FilterMenuAside/FilterMenuAside';
 import SearchPopUp from '../../components/SearchPopUp/SearchPopUp';
 
-// Assets
-
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import {HomeContext} from '../../context/HomeContext';
-
-// Helpers
-import createDateObj from '../../utils/createDate';
+import {ToggleComponentsContext} from '../../context/ToggleComponentsContext'; 
 
 function HomePage() {
 
     // Variables
     const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
-    let date = new Date();
-    let currMonth = date.getMonth();
+
+    // ToggleComponents Context
+    let { toggleComponents, handleToggleClick} = useContext(ToggleComponentsContext);
 
     // States
     // data of the available games from the database
     const [gamesList, setGamesList] = useState([]);
-    // tracks components that can be toggled
-    const [toggleComponents, setToggleComponents] = useState({
-        "map" : {
-            'isToggled': false
-        },
-        "searchPopUp": {
-            'isToggled': false
-        },
-        "filterMenuAside": {
-            'isToggled': false
-        },
-        "calendar": {
-            'isToggled': false,
-            'monthStart': createDateObj(currMonth),
-            'selectedDayStart': '',
-            'monthEnd' : createDateObj(currMonth + 1),
-            'selectedDayEnd': ''
-        },
-        "addPlayersCounter": {
-            isToggled: false,
-            count: 0
-        }
-    })
 
     // Functions
-    // Click handler to toggle the components within the toggleC state 
-    const handleToggleClick = (component) => {
-        if (toggleComponents[component].isToggled) {
-            setToggleComponents({...toggleComponents, [component]: {...toggleComponents[component], isToggled: false}}) 
-        } else {
-            setToggleComponents({...toggleComponents, [component]: {...toggleComponents[component], isToggled: true}})
-        }
-        // componentToggles.component ? setComponentToggle(componentToggles.component = true) : setComponentToggle(componentToggles.component = false)
-    }
     // Click handler to filter the list of games in the gamesList state
     const handleFilterClick = (filterType, filterValue) => {
         let filteredGamesList = gamesList.filter((game) => {
@@ -73,32 +37,11 @@ function HomePage() {
         })
         setGamesList(filteredGamesList)
     }
+
     // Function to reset filters for the games list
     const handleResetFilterClick = () => {
         axios.get(`${SERVER_URL}/games`).then((res) => setGamesList(res.data))
     }
-    // Function to reset toggleComponents
-
-    const resetToggleComponents = () => {
-        let toggleComponents = {
-            "map": {isToggled: false},
-            "searchPopUp": {isToggled: false},
-            "filterMenuAside": {isToggled: false},
-            "calendar": {
-                'isToggled': false,
-                'monthStart': createDateObj(currMonth),
-                'selectedDayStart': '',
-                'monthEnd' : createDateObj(currMonth + 1),
-                'selectedDayEnd': ''
-            },
-            "addPlayersCounter": {
-                isToggled: false,
-                count: 0
-            }
-        }
-        return toggleComponents;
-    }
-
 
     // Use Effects
     // Fetch data from server
@@ -112,12 +55,9 @@ function HomePage() {
 
     // Conditional Rendering
     // Check to see if the search pop up is toggled    
-    if (toggleComponents.searchPopUp.isToggled) return (<HomeContext.Provider value={{toggleComponents, handleToggleClick, setToggleComponents, resetToggleComponents}}><SearchPopUp onClick={handleToggleClick}/></HomeContext.Provider>)
+    if (toggleComponents.searchPopUp.isToggled) return (<SearchPopUp onClick={handleToggleClick}/>)
 
     return (
-
-        <HomeContext.Provider value={{toggleComponents, handleToggleClick, setToggleComponents, resetToggleComponents}}>
-
         <div className="home-page">
 
             <div className="home-page__overlay"></div>
@@ -160,7 +100,6 @@ function HomePage() {
             </div>
 
         </div>
-        </HomeContext.Provider>
     )
 }
 

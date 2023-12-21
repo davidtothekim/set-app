@@ -9,8 +9,9 @@
 	@include u.desktop {
 		flex-direction: row;
 		justify-content: space-between;
-		margin: 4.2rem 0 2.5rem 0;
+		margin: 4.2rem auto 2.5rem auto;
 		padding: 0 6rem;
+		max-width: 1600px;
 	}
 
 	&__logo {

@@ -2,7 +2,7 @@
 import './footer.scss';
 
 // Assets
-import logo from '../../assets/icons/logo-navy.svg';
+import logo from '../../assets/icons/logo-white.svg';
 
 // Dependencies
 import { Link } from 'react-router-dom';

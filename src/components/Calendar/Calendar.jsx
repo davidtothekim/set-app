@@ -3,13 +3,14 @@ import './calendar.scss';
 
 // Dependencies
 import { useContext } from 'react';
-import { HomeContext } from '../../context/HomeContext';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 function Calendar({ month, dateHover, setDateHover }) {
 
+	// ToggleComponents Context
+	const { toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
+
 	// Variables
-	// HomeContext
-	const { toggleComponents, setToggleComponents } = useContext(HomeContext);
 	// Dates Ranges
 	let dateRangeStart = toggleComponents.calendar.selectedDayStart;
 	let dateRangeEnd = toggleComponents.calendar.selectedDayEnd;
