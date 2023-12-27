@@ -10,11 +10,16 @@
 	height: 10rem;
 	background-color: #1f5389;
 
+	&__links {
+		display: flex;
+	}
+
 	&__link {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
 	}
 
 	&__text {

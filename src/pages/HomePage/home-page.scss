@@ -51,15 +51,26 @@
 		padding: 0 2.5rem;
 	}
 
+	// &__events-container {
+	// 	display: flex;
+	// 	justify-content: space-between;
+	// 	flex-wrap: wrap;
+
+	// 	@include u.desktop {
+	// 		display: grid;
+	// 		grid-template-columns: repeat(5, 1fr);
+	// 		grid-template-rows: auto;
+	// 	}
+	// }
+
 	&__events-container {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+
+		justify-items: center;
 
 		@include u.desktop {
-			display: grid;
 			grid-template-columns: repeat(5, 1fr);
-			grid-template-rows: auto;
 		}
 	}
 
