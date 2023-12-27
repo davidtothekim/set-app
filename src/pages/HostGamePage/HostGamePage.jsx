@@ -3,6 +3,8 @@ import './host-game-page.scss';
 
 //Assets
 import backArrowIcon from '../../assets/icons/back-arrow-icon.svg';
+import logo from '../../assets/icons/logo-navy.svg';
+
 // Components
 import Header from '../../components/Header/Header';
 import FooterMobile from '../../components/FooterMobile/FooterMobile';
@@ -23,6 +25,22 @@ function HostGamePage() {
 
 	// State to track the stage the user is currently at in overall process
 	const [ userStage, setUserStage ] = useState(0);
+
+	// State to track values of the form
+	const [ userForm, setUserform ] = useState({
+		title: '',
+		players: null,
+		cost: null,
+		skillLevel: '',
+		type: '',
+		gender: '',
+		date: '',
+		startTime: '',
+		endTime: '',
+		address: '',
+		details: '',
+		hostMessage: ''
+	});
 
 	// Event Handlers
 	const handleClickNext = () => {
@@ -56,7 +74,10 @@ function HostGamePage() {
 	return (
 		<div className="host-game-page">
 			<div className="host-game-page__header">
-				<Header />
+				<img className="host-game-page__logo" src={logo} alt="logo" />
+				<div className="host-game-page__desktop-container">
+					<Header />
+				</div>
 			</div>
 
 			<main className="host-game-page__main content-wrapper">
@@ -71,7 +92,7 @@ function HostGamePage() {
 						</a>
 					</div>
 					{createProgressBar(userStage)}
-					<HostGameForm stage={userStage} />
+					<HostGameForm stage={userStage} userForm={userForm} setUserform={setUserform} />
 				</section>
 
 				<img
@@ -81,6 +102,7 @@ function HostGamePage() {
 				/>
 
 				<div className="host-game-page__button-container">
+					<div className="host-game-page__divider" />
 					<div style={{ visibility: `${userStage === 0 ? 'hidden' : 'visible'}` }}>
 						<div className="host-game-page__mobile-container">
 							<Button text="Back" types={[ 'hyperlink', 'small' ]} onClick={handleClickBack} />

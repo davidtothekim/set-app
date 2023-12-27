@@ -6,11 +6,26 @@
 	font-weight: 500;
 
 	&__header {
-		height: 10rem;
 		width: 100%;
+		padding-top: 5rem;
+		border-bottom: 1px solid #dbdbdb;
+
+		@include u.desktop {
+			padding-top: 3rem;
+			border-bottom: none;
+		}
+	}
+
+	&__logo {
+		margin: 0 auto 2rem auto;
+
+		@include u.desktop {
+			display: none;
+		}
 	}
 
 	&__main {
+		position: relative;
 		margin: 0 auto;
 		max-width: 56rem;
 		min-height: 75rem;
@@ -70,6 +85,11 @@
 			top: 32px;
 			left: -85px;
 			display: auto;
+			cursor: pointer;
+		}
+
+		&:hover {
+			opacity: 0.8;
 		}
 	}
 
@@ -98,6 +118,7 @@
 	}
 
 	&__button-container {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
@@ -106,6 +127,7 @@
 		@include u.desktop {
 			justify-content: flex-end;
 			gap: 6rem;
+			margin-top: 5rem;
 		}
 	}
 
@@ -135,6 +157,27 @@
 				// height: 242px;
 				width: 300px;
 			}
+		}
+	}
+
+	&__footer {
+		padding-bottom: 13rem;
+
+		@include u.desktop {
+			padding-bottom: 0;
+		}
+	}
+
+	&__divider {
+		position: absolute;
+		top: -20px;
+		left: -100vw;
+		width: 200vw;
+		height: 1px;
+		background-color: #dbdbdb;
+		display: none;
+		@include u.desktop {
+			display: block;
 		}
 	}
 }

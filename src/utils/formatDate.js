@@ -3,7 +3,7 @@
 
 function formatDate(dateStr) {
 	let date = new Date(dateStr);
-	let dateFormatted = date.toLocaleDateString('en-us', { month: 'short', day: 'numeric', year: 'numeric' });
+	let dateFormatted = date.toLocaleDateString('en-us', { month: 'short', day: '2-digit', year: 'numeric' });
 	return dateFormatted;
 }
 

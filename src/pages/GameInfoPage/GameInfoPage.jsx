@@ -46,6 +46,8 @@ function GameInfoPage() {
 		})();
 	}, []);
 
+	console.log(game);
+
 	return (
 		<div className="game-info-page">
 			<header className="game-info-page__header">
