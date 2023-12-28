@@ -20,9 +20,10 @@ import Header from '../../components/Header/Header';
 
 // Dependencies
 import { useParams } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 function GameInfoPage() {
 	// Capture game id from URL
@@ -35,7 +36,14 @@ function GameInfoPage() {
 	const [ game, setGame ] = useState({});
 
 	// State for whether a user has joined the game
-	const [ gameJoined, setGameJoined ] = useState(true);
+	const [ gameJoined, setGameJoined ] = useState(false);
+
+	// Functions
+	// Event Handlers
+	const joinGameHandler = () => {
+		setGameJoined(true);
+		console.log('hello');
+	};
 
 	// UseEffect - GET game info
 	useEffect(() => {
@@ -59,7 +67,9 @@ function GameInfoPage() {
 		return (
 			<div className="game-info-page">
 				<header className="game-info-page__header">
-					<img className="game-info-page__logo" src={logo} alt="logo" />
+					<Link to={'/'}>
+						<img className="game-info-page__logo" src={logo} alt="logo" />
+					</Link>
 					<div className="game-info-page__border" />
 					<div className="game-info-page__header--desktop">
 						<Header />
@@ -76,7 +86,9 @@ function GameInfoPage() {
 					</p>
 					<div className="game-info-page__buttons">
 						<Button text="Share link" types={[ 'blue' ]} />
-						<Button text="View more games" types={[ 'white' ]} />
+						<Link to={'/'}>
+							<Button text="View more games" types={[ 'white' ]} />
+						</Link>
 					</div>
 				</main>
 
@@ -224,7 +236,7 @@ function GameInfoPage() {
 								</p>
 							</div>
 						</div>
-						<Button text="Join Game" types={[ 'yellow', 'medium' ]} />
+						<Button text="Join Game" types={[ 'yellow', 'medium' ]} onClick={joinGameHandler} />
 						<div className="game-info-page__price-calculation game-info-page__price-calculation--top">
 							<p className="game-info-page__text game-info-page__text--underline">
 								${game.price} per player
@@ -253,7 +265,7 @@ function GameInfoPage() {
 						$11.70 <span className="game-info-page__text">per player</span>
 					</p>
 				</div>
-				<Button text="Join Game" types={[ 'yellow', 'medium' ]} />
+				<Button text="Join Game" types={[ 'yellow', 'medium' ]} onClick={joinGameHandler} />
 			</section>
 
 			<footer className="game-info-page__footer">

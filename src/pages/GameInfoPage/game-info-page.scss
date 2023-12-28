@@ -150,6 +150,7 @@
 		font-size: 1.4rem;
 		font-weight: 400;
 		margin: 5px 0;
+		line-height: 17px;
 
 		&--bold {
 			font-weight: 500;
@@ -186,7 +187,6 @@
 		&--slim {
 			max-width: 33rem;
 			text-align: center;
-			line-height: 17px;
 		}
 	}
 
