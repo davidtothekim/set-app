@@ -33,23 +33,32 @@ function GameInfoPage() {
 	const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 	// State for the game that should be displayed on the page
-	const [ game, setGame ] = useState({});
+	const [ game, setGame ] = useState({
+		user: {}
+	});
 
 	// State for whether a user has joined the game
 	const [ gameJoined, setGameJoined ] = useState(false);
 
 	// Functions
 	// Event Handlers
-	const joinGameHandler = () => {
+	const joinGameHandler = async () => {
+		// If the game is already full, display a popup message
+		if (parseInt(game.players_limit) - parseInt(game.players_current) === 0) {
+			window.alert('sorry the game is already full!');
+			return;
+		}
+		await axios.post(`${SERVER_URL}/games/${gameId}`).then((res) => res.data);
 		setGameJoined(true);
-		console.log('hello');
 	};
 
 	// UseEffect - GET game info
 	useEffect(() => {
 		(async () => {
 			let game = await axios.get(`${SERVER_URL}/games/${gameId}`).then((res) => res.data[0]);
+			let user = await axios.get(`${SERVER_URL}/users/${game.host_id}`).then((res) => res.data[0]);
 			setGame({
+				user: user,
 				...game,
 				price: game.price.toFixed(2),
 				service_fee: game['service_fee'].toFixed(2),
@@ -58,8 +67,6 @@ function GameInfoPage() {
 			});
 		})();
 	}, []);
-
-	// UseEffect - GET user info
 
 	// Conditional Rendering - checks whether the user has clicked to join the game
 
@@ -119,11 +126,11 @@ function GameInfoPage() {
 						<div
 							className="game-info-page__host-avatar"
 							style={{
-								backgroundImage: `url(https://lh3.googleusercontent.com/a/ACg8ocJ4bX8WLKFBcE9oHXkYEEzeb4vzXoxhz_xN9v68LVQhDw=s96-c)`
+								backgroundImage: `url(${game.user.avatar_url})`
 							}}
 						/>
 						<div className="game-info-page__host-info">
-							<p className="game-info-page__text game-info-page__text--bold">Kathy Dang</p>
+							<p className="game-info-page__text game-info-page__text--bold">{game.user.display_name}</p>
 							<p className="game-info-page__text">
 								Host{' '}
 								<span className="game-info-page__text game-info-page__text--gray game-info-page__text--small">

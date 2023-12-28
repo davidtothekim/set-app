@@ -52,6 +52,15 @@ function HomePage() {
                 setGamesList(games);
             })();
         }, [])
+    
+    useEffect((
+    ) => {
+        (async () => {
+            let user = await axios.get(`${SERVER_URL}/users/profile`).then((res) => res.data);
+            console.log(user)
+        })();
+
+    }, [])
 
     // Conditional Rendering
     // Check to see if the search pop up is toggled    
