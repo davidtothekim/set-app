@@ -10,6 +10,7 @@ import peopleIcon from '../../assets/icons/people-icon.jpg';
 import calendarIcon from '../../assets/icons/calendar-icon.svg';
 import locationIcon from '../../assets/icons/location-icon.svg';
 import logo from '../../assets/icons/logo-navy.svg';
+import servingImage from '../../assets/Images/serving-image-2.svg';
 
 // Components
 import Footer from '../../components/Footer/Footer';
@@ -33,6 +34,10 @@ function GameInfoPage() {
 	// State for the game that should be displayed on the page
 	const [ game, setGame ] = useState({});
 
+	// State for whether a user has joined the game
+	const [ gameJoined, setGameJoined ] = useState(true);
+
+	// UseEffect - GET game info
 	useEffect(() => {
 		(async () => {
 			let game = await axios.get(`${SERVER_URL}/games/${gameId}`).then((res) => res.data[0]);
@@ -46,7 +51,43 @@ function GameInfoPage() {
 		})();
 	}, []);
 
-	console.log(game);
+	// UseEffect - GET user info
+
+	// Conditional Rendering - checks whether the user has clicked to join the game
+
+	if (gameJoined)
+		return (
+			<div className="game-info-page">
+				<header className="game-info-page__header">
+					<img className="game-info-page__logo" src={logo} alt="logo" />
+					<div className="game-info-page__border" />
+					<div className="game-info-page__header--desktop">
+						<Header />
+					</div>
+				</header>
+
+				<main className="game-info-page__main game-info-page__main--confirmation main-content">
+					<h1 className="game-info-page__title game-info-page__title--confirmation">You're in!</h1>
+					<img src={servingImage} alt="serving" className="game-info-page__image" />
+					<p className="game-info-page__text game-info-page__text--bold">Waiting for players to join</p>
+					<p className="game-info-page__text game-info-page__text--light-gray game-info-page__text--slim">
+						Please note: number of player requirements need to be met at least 48 hours before scheduled
+						time
+					</p>
+					<div className="game-info-page__buttons">
+						<Button text="Share link" types={[ 'blue' ]} />
+						<Button text="View more games" types={[ 'white' ]} />
+					</div>
+				</main>
+
+				<footer className="game-info-page__footer">
+					<div className="game-info-page__desktop-container">
+						<Footer />
+					</div>
+					<FooterMobile />
+				</footer>
+			</div>
+		);
 
 	return (
 		<div className="game-info-page">
@@ -57,13 +98,18 @@ function GameInfoPage() {
 				</div>
 			</header>
 
-			<section className="game-info-page__hero" />
+			<section className="game-info-page__hero" style={{ backgroundImage: `url(${game.poster_url})` }} />
 
 			<main className="game-info-page__main main-content">
 				<div className="game-info-page__content-block">
-					<h1 className="game-info-page__title">Coed Intermediate Drop In</h1>
+					<h1 className="game-info-page__title">{game.title}</h1>
 					<div className="game-info-page__host">
-						<div className="game-info-page__host-avatar" />
+						<div
+							className="game-info-page__host-avatar"
+							style={{
+								backgroundImage: `url(https://lh3.googleusercontent.com/a/ACg8ocJ4bX8WLKFBcE9oHXkYEEzeb4vzXoxhz_xN9v68LVQhDw=s96-c)`
+							}}
+						/>
 						<div className="game-info-page__host-info">
 							<p className="game-info-page__text game-info-page__text--bold">Kathy Dang</p>
 							<p className="game-info-page__text">
@@ -79,11 +125,13 @@ function GameInfoPage() {
 						<div className="game-info-page__guests">
 							<div className="game-info-page__guest-attendance">
 								<img className="game-info-page__icon" src={confirmIcon} alt="checkmark" />
-								<p className="game-info-page__text">15 Going</p>
+								<p className="game-info-page__text">{game.players_current} Going</p>
 							</div>
 							<div className="game-info-page__guest-attendance">
 								<img className="game-info-page__icon" src={peopleIcon} alt="spots left" />
-								<p className="game-info-page__text">3 Spots left</p>
+								<p className="game-info-page__text">
+									{game.players_limit - game.players_current} Spots left
+								</p>
 							</div>
 						</div>
 					</div>
@@ -92,8 +140,10 @@ function GameInfoPage() {
 						<div className="game-info-page__details">
 							<img className="game-info-page__icon" src={calendarIcon} alt="calendar" />
 							<div className="game-info-page__page__content">
-								<p className="game-info-page__text">Tue Jan 10, 2023</p>
-								<p className="game-info-page__text">11:00 am - 1:00 pm</p>
+								<p className="game-info-page__text">{game.date}</p>
+								<p className="game-info-page__text">
+									{game.start_time} - {game.end_time}
+								</p>
 							</div>
 						</div>
 					</div>
@@ -102,10 +152,8 @@ function GameInfoPage() {
 						<div className="game-info-page__details">
 							<img className="game-info-page__icon" src={locationIcon} alt="location pin" />
 							<div className="game-info-page__content">
-								<p className="game-info-page__text">Ellesmere Community Centre</p>
-								<p className="game-info-page__text game-info-page__text--gray">
-									154 Danforth Avenue #2nd floor Toronto, ON M4K 1N1
-								</p>
+								<p className="game-info-page__text">{game.location}</p>
+								<p className="game-info-page__text game-info-page__text--gray">{game.address}</p>
 								<p className="game-info-page__text game-info-page__text--light">show map</p>
 							</div>
 						</div>
@@ -115,23 +163,27 @@ function GameInfoPage() {
 						<div className="game-info-page__game-info-tags">
 							<div className="game-info-page__game-info-tag">
 								<img className="game-info-page__icon" src={trophyIcon} alt="trophy" />
-								<p className="game-info-page__text">Intermediate</p>
+								<p className="game-info-page__text game-info-page__text--capitalize">
+									{game.skill_level}
+								</p>
 							</div>
 							<div className="game-info-page__game-info-tag">
 								<img className="game-info-page__icon" src={genderIcon} alt="gender" />
-								<p className="game-info-page__text">Coed</p>
+								<p className="game-info-page__text game-info-page__text--capitalize">{game.gender}</p>
 							</div>
 							<div className="game-info-page__game-info-tag">
 								<img className="game-info-page__icon" src={courtIcon} alt="indoor court" />
-								<p className="game-info-page__text">Indoor Court</p>
+								<p className="game-info-page__text game-info-page__text--capitalize">
+									{game.court} Court
+								</p>
 							</div>
 						</div>
-						<p className="game-info-page__text">
-							Single court, we will be using Court #2. Please show up couple minutes early so we can make
-							teams.
-						</p>
+						<p className="game-info-page__text">{game.description}</p>
 						<p className="game-info-page__text">--</p>
-						<p className="game-info-page__text">Net Height: Coed</p>
+						<p className="game-info-page__text">
+							Net Height:{' '}
+							<span className="game-info-page__text game-info-page__text--capitalize">{game.gender}</span>
+						</p>
 					</div>
 					<div className="game-info-page__cancellation-policy">
 						<h3 className="game-info-page__sub-title">Cancellation Policy</h3>
@@ -145,7 +197,7 @@ function GameInfoPage() {
 					<div className="game-info-page__join-game game-info-page__join-game--desktop">
 						<div className="game-info-page__price">
 							<p className="game-info-page__text game-info-page__text--large game-info-page__text--bold">
-								$11.70 <span className="game-info-page__text">per player</span>
+								${game.price} <span className="game-info-page__text">per player</span>
 							</p>
 						</div>
 						<div className="game-info-page__guests game-info-page__guests--desktop">
@@ -156,7 +208,9 @@ function GameInfoPage() {
 									src={confirmIcon}
 									alt="confirm"
 								/>
-								<p className="game-info-page__text">15/18</p>
+								<p className="game-info-page__text">
+									{game.players_current}/{game.players_limit}
+								</p>
 							</div>
 							<div className="game-info-page__guest-attendance game-info-page__guest-attendance--desktop game-info-page__guest-attendance--right">
 								<p className="game-info-page__text game-info-page__text--bold">Spots</p>
@@ -165,21 +219,27 @@ function GameInfoPage() {
 									src={peopleIcon}
 									alt="people"
 								/>
-								<p className="game-info-page__text game-info-page__text--bold">3</p>
+								<p className="game-info-page__text game-info-page__text--bold">
+									{game.players_limit - game.players_current}
+								</p>
 							</div>
 						</div>
 						<Button text="Join Game" types={[ 'yellow', 'medium' ]} />
 						<div className="game-info-page__price-calculation game-info-page__price-calculation--top">
-							<p className="game-info-page__text game-info-page__text--underline">$11.70 per player</p>
-							<p className="game-info-page__text">$11.70</p>
+							<p className="game-info-page__text game-info-page__text--underline">
+								${game.price} per player
+							</p>
+							<p className="game-info-page__text">${game.price}</p>
 						</div>
 						<div className="game-info-page__price-calculation">
 							<p className="game-info-page__text game-info-page__text--underline">Service fee</p>
-							<p className="game-info-page__text">$1.50</p>
+							<p className="game-info-page__text">${game.service_fee}</p>
 						</div>
 						<div className="game-info-page__price-calculation game-info-page__price-calculation--total">
 							<p className="game-info-page__text game-info-page__text--bold">TOTAL</p>
-							<p className="game-info-page__text game-info-page__text--bold">$12.30</p>
+							<p className="game-info-page__text game-info-page__text--bold">
+								${(parseFloat(game.price) + parseFloat(game.service_fee)).toFixed(2)}
+							</p>
 						</div>
 					</div>
 					<Button text="Share Game" types={[ 'blue' ]} />
@@ -197,7 +257,9 @@ function GameInfoPage() {
 			</section>
 
 			<footer className="game-info-page__footer">
-				<Footer />
+				<div className="game-info-page__desktop-container">
+					<Footer />
+				</div>
 				<FooterMobile />
 			</footer>
 		</div>
