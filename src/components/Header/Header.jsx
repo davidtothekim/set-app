@@ -14,12 +14,13 @@ import AddPlayersCounter from '../AddPlayersCounter/AddPlayersCounter';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import {ToggleComponentsContext} from '../../context/ToggleComponentsContext';
+import moment from 'moment';
 
 // Helper
 import formatDate from '../../utils/formatDate';
 
 
-function Header() {
+function Header({gamesList, setGamesList}) {
 
     // ToggleComponents Context
     const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
@@ -27,6 +28,56 @@ function Header() {
     // Variables
     let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
     let dateEndFormatted = formatDate(toggleComponents.calendar.selectedDayEnd);
+    let selectedPlayers = toggleComponents.addPlayersCounter.count;
+    // Functions
+    // Event Handlers
+    const searchHandler = (e) => {        
+        e.stopPropagation()
+
+        // If search criteras are empty, the search button should not create any action
+        if (selectedPlayers === 0 && toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayeND === '') {
+            return
+        }
+
+        // Variables
+        let dateStartTimeStamp = moment(dateStartFormatted).format();
+        let dateEndTimeStamp = moment(dateEndFormatted).format();
+        let filteredGamesList = [];
+
+        // Only date start is provided
+
+        if (dateEndFormatted === 'Invalid Date' && dateStartFormatted !== 'Invalid Date') {
+            filteredGamesList = gamesList.filter((game) => {
+                let gameDateTimeStamp = moment(game.date).format();
+                return(
+                    ((game.players_limit - game.players_current) >= selectedPlayers) && gameDateTimeStamp === dateStartTimeStamp
+                )
+            })
+        }
+
+        // Both the date start and date end are empty
+
+        else if (dateStartFormatted === 'Invalid Date' && dateEndFormatted === 'Invalid Date') {
+            filteredGamesList = gamesList.filter((game) => {
+                return (
+                    (game.players_limit - game.players_current) >= selectedPlayers
+                )
+            })
+        }
+
+        // Only the number of players is provided
+
+        else {
+            filteredGamesList = gamesList.filter((game) => {
+                let gameDateTimeStamp = moment(game.date).format();
+                return(
+                    ((game.players_limit - game.players_current) >= selectedPlayers) && gameDateTimeStamp >= dateStartTimeStamp && gameDateTimeStamp <= dateEndTimeStamp
+                )
+            })
+        }
+
+        setGamesList(filteredGamesList)
+    }
 
     return (
         <>
@@ -71,8 +122,14 @@ function Header() {
                             <label className="header__label">When</label>
                             {/* <p className="header__input-text-desktop">add dates</p> */}
                             {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">add dates</p>}
-                            {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd !== '') && <p className="header__input-text-desktop">{`${dateStartFormatted} - ${dateEndFormatted}`}</p>}
-                            {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">{dateStartFormatted}</p>}
+
+
+                            {(toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd !== '') && <p className="header__input-text-desktop">{`${dateStartFormatted} - ${dateEndFormatted}`}</p>}
+                            {(toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">{dateStartFormatted}</p>}
+
+
+                            {/* {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd !== '') && <p className="header__input-text-desktop">{`${dateStartFormatted} - ${dateEndFormatted}`}</p>}
+                            {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart !== '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">{dateStartFormatted}</p>} */}
 
                         </div>
                         <div className="header__input-container-desktop header__input-container-desktop--players" onClick={() => {
@@ -83,11 +140,10 @@ function Header() {
                             })
                         }}>
                             <label className="header__label">Who</label>
-                            {/* <p className="header__input-text-desktop">add players</p> */}
                             {toggleComponents.addPlayersCounter.count !== 0 ? <p className="header__input-text-desktop">{toggleComponents.addPlayersCounter.count} players</p> : <p className="header__input-text-desktop">add players</p>}
 
 
-                            <div className="header__search-cta">
+                            <div className="header__search-cta" onClick={searchHandler}>
                                 <p className="header__cta">Search</p>
                             </div>
                         </div>

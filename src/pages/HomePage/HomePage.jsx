@@ -28,7 +28,7 @@ function HomePage() {
     // States
     // data of the available games from the database
     const [gamesList, setGamesList] = useState([]);
-
+    
     // Functions
     // Click handler to filter the list of games in the gamesList state
     const handleFilterClick = (filterType, filterValue) => {
@@ -72,7 +72,7 @@ function HomePage() {
             <div className="home-page__overlay"></div>
 
             <div className="home-page__header">
-                <Header/>
+                <Header gamesList={gamesList} setGamesList={setGamesList}/>
                 <PopularTagsBar onClick={handleFilterClick} reset={handleResetFilterClick} />
             </div>
 
