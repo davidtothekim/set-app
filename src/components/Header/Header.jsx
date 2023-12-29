@@ -5,6 +5,7 @@ import './header.scss';
 import logo from '../../assets/icons/logo-navy.svg';
 import searchIconGrey from '../../assets/icons/search-icon-darkgrey.svg'
 import filterIcon from '../../assets/icons/filter-icon.svg';
+import exitIcon from '../../assets/icons/exit-icon.svg';
 
 //Components
 import CalendarWidget from '../CalendarWidget/CalendarWidget';
@@ -29,6 +30,7 @@ function Header({gamesList, setGamesList}) {
     let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
     let dateEndFormatted = formatDate(toggleComponents.calendar.selectedDayEnd);
     let selectedPlayers = toggleComponents.addPlayersCounter.count;
+
     // Functions
     // Event Handlers
     const searchHandler = (e) => {        
@@ -79,6 +81,23 @@ function Header({gamesList, setGamesList}) {
         setGamesList(filteredGamesList)
     }
 
+    const resetCalendarHandler = (e) => {
+        e.stopPropagation();
+        console.log("inside reset calendar handler")
+        setToggleComponents({
+            ...toggleComponents,
+            calendar:{...toggleComponents.calendar, selectedDayStart: '', selectedDayEnd: ''}
+        })
+    }
+
+    const resetPlayerCounterHandler = (e) => {
+        e.stopPropagation();
+        setToggleComponents({
+            ...toggleComponents,
+            addPlayersCounter: {...toggleComponents.addPlayersCounter, count: 0}
+        })
+    }
+
     return (
         <>
             <header className="header" onClick={() => {
@@ -119,6 +138,9 @@ function Header({gamesList, setGamesList}) {
                                 addPlayersCounter: { ...toggleComponents.addPlayersCounter, isToggled: false }
                             })
                         }}>
+
+                            {(toggleComponents.calendar.selectedDayStart !== '' || toggleComponents.calendar.selectedDayEnd !== '') && <img src={exitIcon} className="header__exit-icon" alt="exit" onClick={(e) => resetCalendarHandler(e)}/>}
+
                             <label className="header__label">When</label>
                             {/* <p className="header__input-text-desktop">add dates</p> */}
                             {!toggleComponents.calendar.isToggled && (toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">add dates</p>}
@@ -140,6 +162,11 @@ function Header({gamesList, setGamesList}) {
                             })
                         }}>
                             <label className="header__label">Who</label>
+
+                            {toggleComponents.addPlayersCounter.count !== 0 && <img src={exitIcon} className="header__exit-icon header__exit-icon--players" alt="exit" onClick={(e) => resetPlayerCounterHandler(e)}/>}
+
+
+
                             {toggleComponents.addPlayersCounter.count !== 0 ? <p className="header__input-text-desktop">{toggleComponents.addPlayersCounter.count} players</p> : <p className="header__input-text-desktop">add players</p>}
 
 

@@ -74,7 +74,7 @@
 			position: relative;
 			border-radius: 20px;
 			display: flex;
-			width: 69rem;
+			width: 70rem;
 			height: 5.4rem;
 			border: 1px solid #d9d9d9;
 			margin-bottom: 1.2rem;
@@ -90,8 +90,9 @@
 		cursor: pointer;
 
 		&--location {
+			position: relative;
 			padding-left: 2.3rem;
-			width: 16rem;
+			width: 19rem;
 			border-right: 1px solid #d9d9d9;
 			// padding-right: 2.5rem;
 
@@ -108,10 +109,12 @@
 		&--date {
 			width: 29rem;
 			padding-left: 2.5rem;
+			position: relative;
 		}
 
 		&--players {
-			width: 24rem;
+			position: relative;
+			width: 27rem;
 			padding-left: 2.5rem;
 			border-left: 1px solid #d9d9d9;
 
@@ -140,6 +143,17 @@
 		letter-spacing: 0.1rem;
 		font-size: 1.4rem;
 		color: #cacaca;
+	}
+
+	&__exit-icon {
+		position: absolute;
+		right: 15px;
+		top: 17px;
+
+		&--players {
+			right: 115px;
+			top: 20px;
+		}
 	}
 
 	&__label {
