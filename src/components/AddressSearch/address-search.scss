@@ -1,0 +1,10 @@
+// Utils
+@use '../../styles/utils/' as u;
+
+.address-search {
+	&__input {
+		letter-spacing: 0.1rem;
+		font-size: 1.4rem;
+		color: #cacaca;
+	}
+}

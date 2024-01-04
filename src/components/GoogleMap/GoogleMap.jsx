@@ -1,4 +1,4 @@
-//Imports
+//Dependencies
 import './google-map.scss'
 import {
     APIProvider,
@@ -11,9 +11,7 @@ import {
 import {useState, useEffect} from 'react'
 import axios from 'axios';
 
-
 import GoogleMapsMarker from '../../components/GoogleMapsMarker/GoogleMapsMarker';
-
 
 function GoogleMap({games}) {
 

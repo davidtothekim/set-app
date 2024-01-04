@@ -40,7 +40,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 					</div>
 
 					<div className="host-game-form__input-container">
-						<input type="text" placeholder="Title" id="title" defaultValue={userForm.title} onChange={formOnChangeHandler}></input>
+						<input type="text" placeholder="Title" id="title" defaultValue={userForm.title} onChange={formOnChangeHandler} required></input>
 					</div>
 
 					<div className="host-game-form__row">

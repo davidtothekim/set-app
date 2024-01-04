@@ -11,6 +11,7 @@ import GoogleMap from '../../components/GoogleMap/GoogleMap';
 import FooterMobile from '../../components/FooterMobile/FooterMobile';
 import FilterMenuAside from '../../components/FilterMenuAside/FilterMenuAside';
 import SearchPopUp from '../../components/SearchPopUp/SearchPopUp';
+import AddressSearch from '../../components/AddressSearch/AddressSearch';
 
 // Dependencies
 import { useEffect, useState, useContext } from 'react';
@@ -52,15 +53,6 @@ function HomePage() {
                 setGamesList(games);
             })();
         }, [])
-    
-    useEffect((
-    ) => {
-        (async () => {
-            let user = await axios.get(`${SERVER_URL}/users/profile`).then((res) => res.data);
-            console.log(user)
-        })();
-
-    }, [])
 
     // Conditional Rendering
     // Check to see if the search pop up is toggled    

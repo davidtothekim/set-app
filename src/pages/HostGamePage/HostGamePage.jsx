@@ -45,6 +45,7 @@ function HostGamePage() {
 	// Event Handlers
 	const handleClickNext = () => {
 		setUserStage((userStage) => userStage + 1);
+		console.log(userForm);
 	};
 
 	const handleClickBack = () => {

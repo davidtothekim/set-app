@@ -15,18 +15,10 @@ function Calendar({ month, dateHover, setDateHover }) {
 	// Dates Ranges
 	let dateRangeStart = toggleComponents.calendar.selectedDayStart;
 	let dateRangeEnd = toggleComponents.calendar.selectedDayEnd;
-	let dateRangeStartTimeStamp = moment(dateRangeStart).format();
-	let dateRangeEndTimeStamp = moment(dateRangeEnd).format();
-	let dateHoverTimeStamp = moment(dateHover).format();
-
-	// console.log(moment('').format())
-	// moment('').format() ? console.log("true") : console.log("false");
 
 	// Functions
 	// Helpers
 	const setSelectedDate = (date) => {
-		let dateTimeStamp = moment(date).format();
-
 		// If there is no selectedDayStart then update selectedDayStart
 		if (dateRangeStart === '') {
 			setToggleComponents({
@@ -38,7 +30,7 @@ function Calendar({ month, dateHover, setDateHover }) {
 		// If there is a selectedDayStart date and the date is 'bigger' then the selectedDayStart update the selectedDayEnd
 		if (dateRangeStart !== '') {
 
-			if (dateTimeStamp > dateRangeStartTimeStamp) {
+			if (date > dateRangeStart) {
 				setToggleComponents({
 					...toggleComponents,
 					calendar: { ...toggleComponents.calendar, selectedDayEnd: date }
@@ -50,7 +42,7 @@ function Calendar({ month, dateHover, setDateHover }) {
 		// If there is a selectedDayStart and a selectedDayEnd
 		if (dateRangeStart !== '' && dateRangeEnd !== '') {
 			// If the selected day is larger than the selectedDayStart then updated the selectedDayEnd
-			if (dateTimeStamp > dateRangeStartTimeStamp) {
+			if (date > dateRangeStart) {
 				setToggleComponents({
 					...toggleComponents,
 					calendar: { ...toggleComponents.calendar, selectedDayEnd: date }
@@ -58,7 +50,7 @@ function Calendar({ month, dateHover, setDateHover }) {
 			}
 
 			// If the selected day is smaller than the selectedDayStart then reset both selectedDayStart and selectedDayEnd
-			if (dateTimeStamp < dateRangeStartTimeStamp) {
+			if (date < dateRangeStart) {
 
 				setToggleComponents({
 					...toggleComponents,
@@ -91,10 +83,12 @@ function Calendar({ month, dateHover, setDateHover }) {
 		let day = (i + 1) < 10 ? `0${i+1}` : i+1;
 		let dateStr = `${month.month}/${day}/${month.year}`;
 		let dateTimeStamp = moment(dateStr).format();
+		let dateRangeStartTimeStamp = moment(dateRangeStart).format();
+		let dateRangeEndTimeStamp = moment(dateRangeEnd).format();
 		// let date = new Date(dateStr).toLocaleDateString('en-US');
 		
 		// If a user clicks and selects a date that is equal to the selectedDayStart or selectedDayEnd
-		if (dateTimeStamp === dateRangeStartTimeStamp || dateTimeStamp === dateRangeEndTimeStamp) {
+		if (dateStr === dateRangeStart || dateStr === dateRangeEnd) {
 			return (
 				<li
 					onMouseOver={handleMouseOver}
@@ -109,60 +103,11 @@ function Calendar({ month, dateHover, setDateHover }) {
 			);
 		}
 
-				// If there is a selectedDayStart and a selectedDayEnd
-				if (dateRangeStart!== "" && dateRangeEnd !== "") {
-					// If the date is between the selectedDayStart and selectedDayEnd
-					if (dateTimeStamp > dateRangeStartTimeStamp && dateTimeStamp < dateRangeEndTimeStamp) {
-						return (
-							<li
-								onMouseOver={handleMouseOver}
-								className="calendar__list-item calendar__list-item--daterange"
-								key={i}
-								onClick={() => {
-									setSelectedDate(dateStr);
-								}}
-							>
-								<p className="calendar__day calendar__day--daterange">{i + 1}</p>
-							</li>
-						);
-					} else {
-						return (					
-						<li
-							id = {i}
-							onMouseOver={handleMouseOver}
-							className="calendar__list-item"
-							key={i}
-							onClick={() => {
-								setSelectedDate(dateStr);
-							}}
-						>
-							<p className="calendar__day">{i + 1}</p>
-						</li>)
-					}
-				}
-		
-				if (dateRangeStart === "") {
-					return (
-						<li
-						id={i}
-						onMouseOver={handleMouseOver}
-						className="calendar__list-item"
-						key={i}
-						onClick={() => {
-							setSelectedDate(dateStr);
-						}}
-					>
-						<p className="calendar__day">{i + 1}</p>
-					</li>
-		
-					)
-				}
-
 		// If there is a selectedDayStart
 		if (dateRangeStart !== '') {
 			// Then check if the calendar date is greater than the selected date and smaller than the date the user is currently hovering over
 			// This means that these dates should be highlighted in blue as the user hovers over different dates to indicate the date range they would be selecting
-			if (dateTimeStamp > dateRangeStartTimeStamp && dateTimeStamp < dateHoverTimeStamp) {
+			if (dateStr > dateRangeStart && dateStr < dateHover) {
 				return (
 					<li
 						onMouseOver={handleMouseOver}
@@ -176,6 +121,54 @@ function Calendar({ month, dateHover, setDateHover }) {
 					</li>
 				);
 			}
+		}
+
+		// If there is a selectedDayStart and a selectedDayEnd
+		if (dateRangeStart!== "" && dateRangeEnd !== "") {
+			// If the date is between the selectedDayStart and selectedDayEnd
+			if (dateStr > dateRangeStart && dateStr < dateRangeEnd) {
+				return (
+					<li
+						onMouseOver={handleMouseOver}
+						className="calendar__list-item calendar__list-item--daterange"
+						key={i}
+						onClick={() => {
+							setSelectedDate(dateStr);
+						}}
+					>
+						<p className="calendar__day calendar__day--daterange">{i + 1}</p>
+					</li>
+				);
+			} else {
+				return (					<li
+					id = {i}
+					onMouseOver={handleMouseOver}
+					className="calendar__list-item"
+					key={i}
+					onClick={() => {
+						setSelectedDate(dateStr);
+					}}
+				>
+					<p className="calendar__day">{i + 1}</p>
+				</li>)
+			}
+		}
+
+		if (dateRangeStart === "") {
+			return (
+				<li
+				id={i}
+				onMouseOver={handleMouseOver}
+				className="calendar__list-item"
+				key={i}
+				onClick={() => {
+					setSelectedDate(dateStr);
+				}}
+			>
+				<p className="calendar__day">{i + 1}</p>
+			</li>
+
+			)
 		}
 
 		// If niether of the conditions above apply, just return a normal list item
