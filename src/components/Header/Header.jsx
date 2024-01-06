@@ -21,21 +21,18 @@ import moment from 'moment';
 // Helper
 import formatDate from '../../utils/formatDate';
 
-
 function Header({gamesList, setGamesList}) {
 
     // ToggleComponents Context
     const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
 
     // Address State
-    const [selectedAddress, setSelectedAddress] = useState('')
+    const [addressVicinity, setAddressVicinity] = useState('')
 
     // Variables
     let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
     let dateEndFormatted = formatDate(toggleComponents.calendar.selectedDayEnd);
     let selectedPlayers = toggleComponents.addPlayersCounter.count;
-
-    console.log(selectedAddress);
 
     // Functions    
     // Event Handlers
@@ -94,67 +91,15 @@ function Header({gamesList, setGamesList}) {
         return gamesList;
     }
 
-    const searchHandlerTest = (e) => {
+    const searchHandler = (e) => {
         e.stopPropagation();
 
         let gamesListFiltered;
-        gamesListFiltered = searchAddressHandler('', gamesList);
+        gamesListFiltered = searchAddressHandler(addressVicinity, gamesList);
         gamesListFiltered = searchPlayersHandler(selectedPlayers, gamesListFiltered);
         gamesListFiltered = searchDatesHandler(dateStartFormatted, dateEndFormatted, gamesListFiltered);
 
-        console.log(gamesListFiltered)
-
-        return gamesListFiltered;
-    }
-
-
-
-    const searchHandler = (e) => {        
-        e.stopPropagation()
-
-        // If search criteras are empty, the search button should not create any action
-        if (selectedPlayers === 0 && toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayeND === '') {
-            return
-        }
-
-        // Variables
-        let dateStartTimeStamp = moment(dateStartFormatted).format();
-        let dateEndTimeStamp = moment(dateEndFormatted).format();
-        let filteredGamesList = [];
-
-        // Only date start is provided
-
-        if (dateEndFormatted === 'Invalid Date' && dateStartFormatted !== 'Invalid Date') {
-            filteredGamesList = gamesList.filter((game) => {
-                let gameDateTimeStamp = moment(game.date).format();
-                return(
-                    ((game.players_limit - game.players_current) >= selectedPlayers) && gameDateTimeStamp === dateStartTimeStamp
-                )
-            })
-        }
-
-        // Both the date start and date end are empty
-
-        else if (dateStartFormatted === 'Invalid Date' && dateEndFormatted === 'Invalid Date') {
-            filteredGamesList = gamesList.filter((game) => {
-                return (
-                    (game.players_limit - game.players_current) >= selectedPlayers
-                )
-            })
-        }
-
-        // Only the number of players is provided
-
-        else {
-            filteredGamesList = gamesList.filter((game) => {
-                let gameDateTimeStamp = moment(game.date).format();
-                return(
-                    ((game.players_limit - game.players_current) >= selectedPlayers) && gameDateTimeStamp >= dateStartTimeStamp && gameDateTimeStamp <= dateEndTimeStamp
-                )
-            })
-        }
-
-        setGamesList(filteredGamesList)
+        setGamesList(gamesListFiltered);
     }
 
     const resetCalendarHandler = (e) => {
@@ -204,7 +149,7 @@ function Header({gamesList, setGamesList}) {
                     <div className="header__inputs-container-desktop" onClick={(e) => e.stopPropagation()}>
                         <div className="header__input-container-desktop header__input-container-desktop--location">
                             <label className="header__label">Where</label>
-                            <AddressSearch setSelectedAddress={setSelectedAddress}/>
+                            <AddressSearch setAddressVicinity={setAddressVicinity}/>
                         </div>
                         <div className="header__input-container-desktop header__input-container-desktop--date" onClick={() => {
 
@@ -258,8 +203,6 @@ function Header({gamesList, setGamesList}) {
                     </div>
                 </div>
             </header>
-
-            <button onClick={searchHandlerTest}>test</button>
 
             <div className="header__border"></div>
         </>

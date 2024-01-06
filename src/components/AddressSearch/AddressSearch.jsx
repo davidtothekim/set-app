@@ -25,7 +25,7 @@ const loadScript = (url, callback) => {
   document.getElementsByTagName("head")[0].appendChild(script);
 };
 
-const SearchLocationInput = ({ setSelectedLocation, setSelectedAddress }) => {
+const SearchLocationInput = ({ setSelectedLocation, setAddressVicinity }) => {
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -58,7 +58,7 @@ const SearchLocationInput = ({ setSelectedLocation, setSelectedAddress }) => {
 
 
     updateQuery(queryFormatted);
-    setSelectedAddress(queryFormatted);
+    setAddressVicinity(addressObject.vicinity);
     console.log({ query });
 
     const latLng = {
