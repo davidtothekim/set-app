@@ -46,7 +46,6 @@ const SearchLocationInput = ({ setSelectedLocation, setAddressVicinity }) => {
 
   const handlePlaceSelect = async (updateQuery) => {
     const addressObject = await autoComplete.getPlace();
-    console.log(addressObject)
 
     const query = addressObject.formatted_address;
     let querySplitFiltered = addressObject.formatted_address.split(',').filter((str) => str !== ' Canada');

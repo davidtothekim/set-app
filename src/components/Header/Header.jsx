@@ -21,7 +21,7 @@ import moment from 'moment';
 // Helper
 import formatDate from '../../utils/formatDate';
 
-function Header({gamesList, setGamesList}) {
+function Header({gamesList, setGamesList, setSearchCriteria}) {
 
     // ToggleComponents Context
     const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
@@ -37,69 +37,16 @@ function Header({gamesList, setGamesList}) {
     // Functions    
     // Event Handlers
 
-    const searchAddressHandler = (addressVicinity, gamesList) => {
-        let filteredGamesList = gamesList.filter((game) => {
-            return(
-                game.address.includes(addressVicinity)
-            )
-        })
-
-        return addressVicinity ? filteredGamesList : gamesList
-    }
-
-    const searchDatesHandler = (dateStart, dateEnd, gamesList) => {
-
-        let filteredGamesList;
-
-        // If both date start and date end are empty, return gamesList
-        if (dateStart === 'Invalid Date' && dateEnd === 'Invalid Date') {
-            return gamesList;
-        }
-
-        // If dateEnd is empty and dateStart is not empty, filter gamesList by dateStart only
-        if (dateStart !== 'Invalid Date' && dateEnd === 'Invalid Date') {
-            filteredGamesList = gamesList.filter((game) => {
-                return (
-                    moment(game.date).format() === moment(dateStart).format()
-                )
-            })
-        }
-
-        // If dateStart and dateEnd is not empty, filter gamesList by both dateStart and dateEnd
-        if (dateStart !== 'Invalid Date' && dateEnd !== 'Invalid Date') {
-            filteredGamesList = gamesList.filter((game) => {
-                return (
-                    moment(game.date).format() >= moment(dateStart).format() && moment(game.date).format() <= moment(dateEnd).format()
-                )
-            })
-        }
-
-        return filteredGamesList;
-    }
-
-    const searchPlayersHandler = (playersCount, gamesList) => {
-        let filteredGamesList = gamesList.filter((game) => {
-            return (
-                ((game.players_limit - game.players_current) >= playersCount)
-            )
-        })
-
-        if (playersCount !== 0) {
-            return filteredGamesList
-        }
-
-        return gamesList;
-    }
-
     const searchHandler = (e) => {
         e.stopPropagation();
-
-        let gamesListFiltered;
-        gamesListFiltered = searchAddressHandler(addressVicinity, gamesList);
-        gamesListFiltered = searchPlayersHandler(selectedPlayers, gamesListFiltered);
-        gamesListFiltered = searchDatesHandler(dateStartFormatted, dateEndFormatted, gamesListFiltered);
-
-        setGamesList(gamesListFiltered);
+        setSearchCriteria({
+            addressVicinity: (addressVicinity !== '' ? addressVicinity : ''),
+            players: selectedPlayers,
+            dates: {
+                startDate: (toggleComponents.calendar.selectedDayStart !== '' ? dateStartFormatted : ''),
+                endDate: (toggleComponents.calendar.selectedDayEnd !== '' ? dateEndFormatted : '')
+            }
+        })
     }
 
     const resetCalendarHandler = (e) => {
@@ -128,7 +75,7 @@ function Header({gamesList, setGamesList}) {
                     calendar: { ...toggleComponents.calendar, isToggled: false }
                 })
             }}>
-                <Link to={`/`}>
+                <Link to={`/`} onClick={() => window.location.reload()}>
                     <div className="header__logo">
                         <img className="header__icon header__icon--logo" src={logo} alt="set logo" />
                     </div>

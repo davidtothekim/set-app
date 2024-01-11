@@ -11,24 +11,59 @@ import GoogleMap from '../../components/GoogleMap/GoogleMap';
 import FooterMobile from '../../components/FooterMobile/FooterMobile';
 import FilterMenuAside from '../../components/FilterMenuAside/FilterMenuAside';
 import SearchPopUp from '../../components/SearchPopUp/SearchPopUp';
-import AddressSearch from '../../components/AddressSearch/AddressSearch';
 
 // Dependencies
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useMemo} from 'react';
 import axios from 'axios';
 import {ToggleComponentsContext} from '../../context/ToggleComponentsContext'; 
+import moment from 'moment';
+
+// Helpers
+// Helper
+import formatDate from '../../utils/formatDate';
 
 function HomePage() {
 
-    // Variables
+    // env Variables
     const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
     // ToggleComponents Context
     let { toggleComponents, handleToggleClick} = useContext(ToggleComponentsContext);
 
     // States
-    // data of the available games from the database
+    // Data of the available games from the database
     const [gamesList, setGamesList] = useState([]);
+
+    // Search Criteria from Header
+    const [searchCriteria, setSearchCriteria] = useState({
+        dates: {
+            startDate: '',
+            endDate: ''
+        },
+        addressVicinity: '',
+        players: null
+    })
+
+    // Filtered Games after search
+    const filteredGames = useMemo(() => {
+        return gamesList.filter((game) => {
+            let gameDateMoment = moment(formatDate(game.date)).format();
+            let searchCriteriaStartDateMoment = moment(searchCriteria.dates.startDate).format()
+            let searchCriteriaEndDateMoment = moment(searchCriteria.dates.endDate).format()
+
+            return(
+                // Address filter
+                (searchCriteria.addressVicinity ? game.address.toLowerCase().includes(searchCriteria.addressVicinity.toLowerCase()) : game)
+                // Players filter
+                && ((game.players_limit - game.players_current) >= searchCriteria.players)
+                // Dates filter
+                    // start date only
+                && ((searchCriteria.dates.startDate && !searchCriteria.dates.endDate) ? gameDateMoment === searchCriteriaStartDateMoment : game)
+                    // start date + end date
+                && ((searchCriteria.dates.startDate && searchCriteria.dates.endDate) ? (gameDateMoment >= searchCriteriaStartDateMoment && gameDateMoment <= searchCriteriaEndDateMoment) : game)
+            )
+        })
+    })
     
     // Functions
     // Click handler to filter the list of games in the gamesList state
@@ -64,7 +99,7 @@ function HomePage() {
             <div className="home-page__overlay"></div>
 
             <div className="home-page__header">
-                <Header gamesList={gamesList} setGamesList={setGamesList}/>
+                <Header gamesList={gamesList} setGamesList={setGamesList} setSearchCriteria={setSearchCriteria} searchCriteria={searchCriteria}/>
                 <PopularTagsBar onClick={handleFilterClick} reset={handleResetFilterClick} />
             </div>
 
@@ -79,9 +114,9 @@ function HomePage() {
                     <h2 className="home-page__sub-header">All Games</h2>
 
                     {
-                            toggleComponents.map.isToggled ? <GoogleMap games={gamesList} /> : <>
+                            toggleComponents.map.isToggled ? <GoogleMap games={filteredGames} /> : <>
                                 <div className="home-page__events-container">
-                                    {gamesList.map((game, i) => (
+                                    {filteredGames.map((game, i) => (
                                         <EventCard game={game} key={i} />
                                     ))}
                                 </div>
@@ -93,6 +128,7 @@ function HomePage() {
                 {
                     toggleComponents.map.isToggled ? <Button text="Show List" types={["map"]} onClick={() => {handleToggleClick("map")}} /> : <Button text="Show Map" types={["map"]} onClick={() => {handleToggleClick("map")}} />
                 }
+
             </div>
 
             <div className="home-page__footer">
