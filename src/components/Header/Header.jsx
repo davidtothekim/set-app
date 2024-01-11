@@ -75,7 +75,7 @@ function Header({gamesList, setGamesList, setSearchCriteria}) {
                     calendar: { ...toggleComponents.calendar, isToggled: false }
                 })
             }}>
-                <Link to={`/`} onClick={() => window.location.reload()}>
+                <Link to={`/`}>
                     <div className="header__logo">
                         <img className="header__icon header__icon--logo" src={logo} alt="set logo" />
                     </div>
@@ -144,7 +144,9 @@ function Header({gamesList, setGamesList, setSearchCriteria}) {
                 </div>
 
                 <div className="header__host-game">
+                    <Link to={`/host-game`}>
                     <p className="header__text">Host a game</p>
+                    </Link>
                     <div className="header__profile">
                         <div className="header__profile-icon"></div>
                     </div>
