@@ -42,6 +42,10 @@
 		&--search {
 			padding-left: 3.4rem;
 		}
+
+		&--invalid {
+			border-color: #f02849;
+		}
 	}
 
 	&__icon {

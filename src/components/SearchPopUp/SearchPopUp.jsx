@@ -9,15 +9,42 @@ import searchIcon from '../../assets/icons/search-icon-lightgrey.svg';
 import CalendarWidget from '../../components/CalendarWidget/CalendarWidget';
 import Button from '../../components/Button/Button';
 import AddPlayersCounter from '../../components/AddPlayersCounter/AddPlayersCounter';
+import AddressSearch from '../../components/AddressSearch/AddressSearch';
 
 // Dependencies
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
-function SearchPopUp() {
+// Helpers
+import formatDate from '../../utils/formatDate';
+
+function SearchPopUp({setSearchCriteria}) {
 
 	// ToggleComponents Context
 	let { handleToggleClick, toggleComponents, resetToggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
+
+	// Address State
+	const [addressVicinity, setAddressVicinity] = useState('')
+
+	// Variables
+		let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
+		let dateEndFormatted = formatDate(toggleComponents.calendar.selectedDayEnd);
+		let selectedPlayers = toggleComponents.addPlayersCounter.count;
+
+	// Functions
+		// Event Handlers
+	const searchHandler = (e) => {
+        e.stopPropagation();
+        setSearchCriteria({
+            addressVicinity: (addressVicinity !== '' ? addressVicinity : ''),
+            players: selectedPlayers,
+            dates: {
+                startDate: (toggleComponents.calendar.selectedDayStart !== '' ? dateStartFormatted : ''),
+                endDate: (toggleComponents.calendar.selectedDayEnd !== '' ? dateEndFormatted : '')
+            }
+        })
+		setToggleComponents(resetToggleComponents);
+    }
 
 	return (
 		<div className="search-pop-up">
@@ -33,7 +60,7 @@ function SearchPopUp() {
 				<p className="search-pop-up__text">Where</p>
 				<div className="search-pop-up__search">
 					<img className="search-pop-up__search-icon" src={searchIcon} alt="search" />
-					<input className="search-pop-up__input" type="text" placeholder="Add location" />
+					<AddressSearch setAddressVicinity={setAddressVicinity}/>
 				</div>
 			</div>
 			<div
@@ -66,7 +93,7 @@ function SearchPopUp() {
 
 			<div className="search-pop-up__footer-push"></div>
 			<div className="search-pop-up__footer">
-				<Button text="Search" types={['white', 'small']}/>
+				<Button text="Search" types={['white', 'small']} onClick={searchHandler}/>
 			</div>
 
 

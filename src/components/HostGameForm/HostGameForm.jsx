@@ -5,13 +5,10 @@ import './host-game-form.scss';
 import calendarIcon from '../../assets/icons/calendar-icon-lightgrey.svg';
 import searchIcon from '../../assets/icons/search-icon-darkgrey.svg';
 
-// Dependencies
-import { useEffect } from 'react';
-
 // Helpers
 import formatDate from '../../utils/formatDate';
 
-function HostGameForm({ stage, userForm, setUserform }) {
+function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 
 	// Event Handlers
 	const formOnChangeHandler = (e) =>  {
@@ -32,7 +29,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 	if (stage === 0) {
 		return (
 			<>
-				<form className="host-game-form">
+				<form className="host-game-form" ref={innerRef}>
 
 					<div className="host-game-form__title-container">
 						<h2 className="host-game-form__title">Step 1: Basic Info</h2>
@@ -45,10 +42,10 @@ function HostGameForm({ stage, userForm, setUserform }) {
 
 					<div className="host-game-form__row">
 						<div className="host-game-form__input-container">
-							<input type="number" placeholder="# of players" min="12" max="50" id="players" defaultValue={userForm.players} onChange={formOnChangeHandler}/>
+							<input type="number" placeholder="# of players" min="12" max="36" id="players" defaultValue={userForm.players} onChange={formOnChangeHandler}/>
 						</div>
 						<div className="host-game-form__input-container host-game-form__input-container--right">
-							<input type="text" placeholder="Cost per player" id="cost" defaultValue={userForm.cost} onChange={formOnChangeHandler}/>
+							<input type="number" placeholder="Cost per player" id="cost" min="0" defaultValue={`{userForm.cost}`} onChange={formOnChangeHandler}/>
 						</div>
 					</div>
 
@@ -65,7 +62,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 					<div className="host-game-form__row">
 						<div className="host-game-form__input-container">
 							<select id="type" onChange={formOnChangeHandler}>
-								<option selected disabled hidden>Type</option>
+								<option value="" selected disabled hidden>Type</option>
 								<option value="Indoor">Indoor</option>
 								<option value="Beach">Beach</option>
 								<option value="Field">Field</option>
@@ -74,7 +71,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 
 						<div className="host-game-form__input-container host-game-form__input-container--right">
 							<select id="gender" onChange={formOnChangeHandler}>
-								<option selected disabled hidden>Gender</option>
+								<option value="" selected disabled hidden>Gender</option>
 								<option value="coed">Coed</option>
 								<option value="mens">Mens</option>
 								<option value="womens">Womens</option>
@@ -89,7 +86,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 	if (stage === 1) {
 		return (
 			<>
-				<form className="host-game-form">
+				<form className="host-game-form" ref={innerRef}>
 
 					<div className="host-game-form__title-container">
 						<h2 className="host-game-form__title">Step 2: Location</h2>
@@ -126,7 +123,7 @@ function HostGameForm({ stage, userForm, setUserform }) {
 	if (stage === 2) {
 		return (
 			<>
-				<form className="host-game-form">
+				<form className="host-game-form" ref={innerRef}>
 
 					<div className="host-game-form__title-container">
 						<h2 className="host-game-form__title">Step 3: Details</h2>

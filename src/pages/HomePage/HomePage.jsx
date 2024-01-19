@@ -41,11 +41,15 @@ function HomePage() {
             endDate: ''
         },
         addressVicinity: '',
-        players: null
+        players: null,
+        skillLevel: '',
+        gender: ''
     })
 
+    console.log(searchCriteria)
+
     // Filtered Games after search
-    const filteredGames = useMemo(() => {
+    let filteredGames = useMemo(() => {
         return gamesList.filter((game) => {
             let gameDateMoment = moment(formatDate(game.date)).format();
             let searchCriteriaStartDateMoment = moment(searchCriteria.dates.startDate).format()
@@ -61,6 +65,8 @@ function HomePage() {
                 && ((searchCriteria.dates.startDate && !searchCriteria.dates.endDate) ? gameDateMoment === searchCriteriaStartDateMoment : game)
                     // start date + end date
                 && ((searchCriteria.dates.startDate && searchCriteria.dates.endDate) ? (gameDateMoment >= searchCriteriaStartDateMoment && gameDateMoment <= searchCriteriaEndDateMoment) : game)
+                // Popular tags filter
+                
             )
         })
     })
@@ -76,7 +82,9 @@ function HomePage() {
 
     // Function to reset filters for the games list
     const handleResetFilterClick = () => {
-        axios.get(`${SERVER_URL}/games`).then((res) => setGamesList(res.data))
+        // axios.get(`${SERVER_URL}/games`).then((res) => setGamesList(res.data))
+        filteredGames = gamesList;
+        location.reload();
     }
 
     // Use Effects
@@ -91,7 +99,7 @@ function HomePage() {
 
     // Conditional Rendering
     // Check to see if the search pop up is toggled    
-    if (toggleComponents.searchPopUp.isToggled) return (<SearchPopUp onClick={handleToggleClick}/>)
+    if (toggleComponents.searchPopUp.isToggled) return (<SearchPopUp onClick={handleToggleClick} setSearchCriteria={setSearchCriteria}/>)
 
     return (
         <div className="home-page">
@@ -100,7 +108,7 @@ function HomePage() {
 
             <div className="home-page__header">
                 <Header gamesList={gamesList} setGamesList={setGamesList} setSearchCriteria={setSearchCriteria} searchCriteria={searchCriteria}/>
-                <PopularTagsBar onClick={handleFilterClick} reset={handleResetFilterClick} />
+                <PopularTagsBar onClick={handleFilterClick} reset={handleResetFilterClick} setSearchCriteria={setSearchCriteria} searchCriteria={searchCriteria} />
             </div>
 
             <div className="home-page__main main-content">

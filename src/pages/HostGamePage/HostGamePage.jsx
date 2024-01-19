@@ -15,7 +15,7 @@ import HostGameForm from '../../components/HostGameForm/HostGameForm';
 import pageContents from '../../utils/hostGamePageContent';
 
 // Dependencies
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -42,10 +42,14 @@ function HostGamePage() {
 		hostMessage: ''
 	});
 
+	// Refs
+	const formRef = useRef();
+
+	// Functions
 	// Event Handlers
 	const handleClickNext = () => {
+		if (!validateForm(formRef.current)) return alert('Please make sure you have completed all input fields!');
 		setUserStage((userStage) => userStage + 1);
-		console.log(userForm);
 	};
 
 	const handleClickBack = () => {
@@ -56,8 +60,8 @@ function HostGamePage() {
 		navigate('/');
 	};
 
-	// Functions
-	let createProgressBar = (userStage) => {
+	// Create Progress Bar
+	const createProgressBar = (userStage) => {
 		return (
 			<div className="host-game-page__progress-bar-container">
 				{Array(userStage + 1).fill(1).map((num, i) => {
@@ -70,6 +74,21 @@ function HostGamePage() {
 				})}
 			</div>
 		);
+	};
+
+	// Validate Form
+	const validateForm = (form) => {
+		for (let input of form) {
+			// All Inputs
+			// Cannot be an empty
+			if (input.value === '') return false;
+
+			// Number Inputs
+			// Cannot be non integers
+			if (input.type === 'number' && !input.value.match(/^[0-9]+$/) ? true : false) return false;
+
+			return true;
+		}
 	};
 
 	return (
@@ -93,7 +112,7 @@ function HostGamePage() {
 						</a>
 					</div>
 					{createProgressBar(userStage)}
-					<HostGameForm stage={userStage} userForm={userForm} setUserform={setUserform} />
+					<HostGameForm stage={userStage} userForm={userForm} setUserform={setUserform} innerRef={formRef} />
 				</section>
 
 				<img
@@ -101,7 +120,6 @@ function HostGamePage() {
 						.name}`}
 					src={pageContents[userStage].image.url}
 				/>
-
 				<div className="host-game-page__button-container">
 					<div className="host-game-page__divider" />
 					<div style={{ visibility: `${userStage === 0 ? 'hidden' : 'visible'}` }}>

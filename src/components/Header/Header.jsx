@@ -16,12 +16,11 @@ import AddressSearch from '../AddressSearch/AddressSearch';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import {ToggleComponentsContext} from '../../context/ToggleComponentsContext';
-import moment from 'moment';
 
 // Helper
 import formatDate from '../../utils/formatDate';
 
-function Header({gamesList, setGamesList, setSearchCriteria}) {
+function Header({setSearchCriteria, searchCriteria}) {
 
     // ToggleComponents Context
     const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
@@ -40,6 +39,7 @@ function Header({gamesList, setGamesList, setSearchCriteria}) {
     const searchHandler = (e) => {
         e.stopPropagation();
         setSearchCriteria({
+            ...searchCriteria,
             addressVicinity: (addressVicinity !== '' ? addressVicinity : ''),
             players: selectedPlayers,
             dates: {
