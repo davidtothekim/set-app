@@ -34,6 +34,13 @@ let pageContent = [
 		navLink: {
 			text: 'Location'
 		}
+	},
+	{
+		title: 'Game Created',
+		image: {
+			name: 'serve2',
+			url: '/src/assets/Images/serving-image-2.svg'
+		}
 	}
 ];
 

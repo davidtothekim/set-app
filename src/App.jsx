@@ -6,11 +6,13 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
 import GameInfoPage from './pages/GameInfoPage/GameInfoPage';
 import HostGamePage from './pages/HostGamePage/HostGamePage';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 // Dependencies
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToggleComponentsContext } from './context/ToggleComponentsContext';
+import axios from 'axios'
 
 // Helpers
 import createDateObj from './utils/createDate';
@@ -45,6 +47,9 @@ function App() {
 		}
 	});
 
+	// Indicates whether user is logged in or not
+	let isAuthenticated = document.cookie.match('(^|;)\\s*' + 'connect.sid' + '\\s*=\\s*([^;]+)')?.pop() ? true : false;
+
 	// Functions
 	// Click handler to toggle the components within the toggleC state
 	const handleToggleClick = (component) => {
@@ -59,7 +64,6 @@ function App() {
 				[component]: { ...toggleComponents[component], isToggled: true }
 			});
 		}
-		// componentToggles.component ? setComponentToggle(componentToggles.component = true) : setComponentToggle(componentToggles.component = false)
 	};
 
 	// Function to reset toggleComponents
@@ -85,15 +89,35 @@ function App() {
 
 	return (
 		<ToggleComponentsContext.Provider
-			value={{ toggleComponents, handleToggleClick, setToggleComponents, resetToggleComponents }}
+			value={{ toggleComponents, handleToggleClick, setToggleComponents, resetToggleComponents}}
 		>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<HomePage />} />
+					<Route
+						path="/"
+						element={
+							<ProtectedRoute isAuthenticated={isAuthenticated} >
+								<HomePage />
+							</ProtectedRoute>
+						}
+					/>
 					<Route path="/login" element={<LoginPage />} />
-					<Route path="/game" element={<GameInfoPage />} />
-					<Route path="/game/:gameId" element={<GameInfoPage />} />
-					<Route path="/host-game" element={<HostGamePage />} />
+					<Route
+						path="/game/:gameId"
+						element={
+							<ProtectedRoute isAuthenticated={isAuthenticated}>
+								<GameInfoPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/host-game"
+						element={
+							<ProtectedRoute isAuthenticated={isAuthenticated}>
+								<HostGamePage  />
+							</ProtectedRoute>
+						}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</ToggleComponentsContext.Provider>

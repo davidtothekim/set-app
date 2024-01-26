@@ -46,8 +46,6 @@ function HomePage() {
         gender: ''
     })
 
-    console.log(searchCriteria)
-
     // Filtered Games after search
     let filteredGames = useMemo(() => {
         return gamesList.filter((game) => {
@@ -82,18 +80,17 @@ function HomePage() {
 
     // Function to reset filters for the games list
     const handleResetFilterClick = () => {
-        // axios.get(`${SERVER_URL}/games`).then((res) => setGamesList(res.data))
         filteredGames = gamesList;
         location.reload();
     }
 
     // Use Effects
-    // Fetch data from server
+    // Fetch game data from server
     useEffect(
         () => {
             (async () => {
                 let games = await axios.get(`${SERVER_URL}/games`).then((res) => res.data);
-                setGamesList(games);
+                setGamesList(games)
             })();
         }, [])
 
@@ -129,7 +126,6 @@ function HomePage() {
                                     ))}
                                 </div>
                             </>
-
                         }
                 </div>
 

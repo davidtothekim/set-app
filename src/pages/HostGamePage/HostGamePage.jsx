@@ -18,16 +18,20 @@ import pageContents from '../../utils/hostGamePageContent';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function HostGamePage() {
+	// env Variables
+	const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+
 	// Initialize navigate hook
 	const navigate = useNavigate();
 
 	// State to track the stage the user is currently at in overall process
-	const [ userStage, setUserStage ] = useState(0);
+	const [userStage, setUserStage] = useState(0);
 
 	// State to track values of the form
-	const [ userForm, setUserform ] = useState({
+	const [userForm, setUserform] = useState({
 		title: '',
 		players: null,
 		cost: null,
@@ -39,7 +43,8 @@ function HostGamePage() {
 		endTime: '',
 		address: '',
 		details: '',
-		hostMessage: ''
+		hostMessage: '',
+		isSubmitted: false
 	});
 
 	// Refs
@@ -101,42 +106,61 @@ function HostGamePage() {
 			</div>
 
 			<main className="host-game-page__main content-wrapper">
-				<section className="host-game-page__form">
-					<div className="host-game-page__nav-link">
-						<img className="host-game-page__nav-icon" src={backArrowIcon} alt="back-arrow" />
-						<a
-							className="host-game-page__nav-text"
-							onClick={userStage === 0 ? handleClickHome : handleClickBack}
-						>
-							{pageContents[userStage].navLink.text}
-						</a>
-					</div>
-					{createProgressBar(userStage)}
-					<HostGameForm stage={userStage} userForm={userForm} setUserform={setUserform} innerRef={formRef} />
-				</section>
-
-				<img
-					className={`host-game-page__hero-image host-game-page__hero-image--${pageContents[userStage].image
-						.name}`}
-					src={pageContents[userStage].image.url}
-				/>
-				<div className="host-game-page__button-container">
-					<div className="host-game-page__divider" />
-					<div style={{ visibility: `${userStage === 0 ? 'hidden' : 'visible'}` }}>
-						<div className="host-game-page__mobile-container">
-							<Button text="Back" types={[ 'hyperlink', 'small' ]} onClick={handleClickBack} />
+				{userForm.isSubmitted ?
+					<div className="host-game-page__confirmation-modal">
+						<h2 className="host-game-page__text host-game-page__text--title">Game created!</h2>
+						<img
+							className={`host-game-page__hero-image host-game-page__hero-image--${pageContents[userStage].image
+								.name} host-game-page__hero-image--confirmation-modal`}
+							src={pageContents[3].image.url}
+						/>
+						<p className="host-game-page__text host-game-page__text--bold">Waiting for players to join</p>
+						<p className="host-game-page__text">Please note: number of player requirements need to be met at least 48 hours before scheduled time</p>
+						<div className="host-game-page__confirmation-modal-footer">
+							<Button text="Share Link" types={['blue']}/>
+							<Button text="View game" types={['white']}/>
 						</div>
-					</div>
-					<Link className="host-game-page__desktop-container" to={'/'}>
-						<p>Cancel</p>
-					</Link>
-					<div className="host-game-page__desktop-container" to={'/'}>
-						<Button text="Next" types={[ 'blue', 'small' ]} onClick={handleClickNext} />
-					</div>
-					<div className="host-game-page__mobile-container" to={'/'}>
-						<Button text="Next" types={[ 'grey', 'small' ]} onClick={handleClickNext} />
-					</div>
-				</div>
+					</div> :
+					<>
+						<section className="host-game-page__form">
+							<div className="host-game-page__nav-link">
+								<img className="host-game-page__nav-icon" src={backArrowIcon} alt="back-arrow" />
+								<a
+									className="host-game-page__nav-text"
+									onClick={userStage === 0 ? handleClickHome : handleClickBack}
+								>
+									{pageContents[userStage].navLink.text}
+								</a>
+							</div>
+
+							{createProgressBar(userStage)}
+							<HostGameForm stage={userStage} userForm={userForm} setUserform={setUserform} innerRef={formRef} />
+						</section>
+
+						<img
+							className={`host-game-page__hero-image host-game-page__hero-image--${pageContents[userStage].image
+								.name}`}
+							src={pageContents[userStage].image.url}
+						/>
+						<div className="host-game-page__button-container">
+							<div className="host-game-page__divider" />
+							<div style={{ visibility: `${userStage === 0 ? 'hidden' : 'visible'}` }}>
+								<div className="host-game-page__mobile-container">
+									<Button text="Back" types={['hyperlink', 'small']} onClick={handleClickBack} />
+								</div>
+							</div>
+							<Link className="host-game-page__desktop-container" to={'/'}>
+								<p>Cancel</p>
+							</Link>
+							<div className="host-game-page__desktop-container" to={'/'}>
+								<Button text="Next" types={['blue', 'small']} onClick={handleClickNext} />
+							</div>
+							<div className="host-game-page__mobile-container" to={'/'}>
+								<Button text="Next" types={['grey', 'small']} onClick={handleClickNext} />
+							</div>
+						</div>
+					</>
+				}
 			</main>
 
 			<footer className="host-game-page__footer">

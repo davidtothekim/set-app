@@ -14,19 +14,33 @@ import AddressSearch from '../AddressSearch/AddressSearch';
 
 // Dependencies
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import {ToggleComponentsContext} from '../../context/ToggleComponentsContext';
+import { useContext, useState, useEffect } from 'react';
+import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 // Helper
 import formatDate from '../../utils/formatDate';
+import axios from 'axios';
 
-function Header({setSearchCriteria, searchCriteria}) {
+function Header({ setSearchCriteria, searchCriteria }) {
 
     // ToggleComponents Context
     const { handleToggleClick, toggleComponents, setToggleComponents } = useContext(ToggleComponentsContext);
 
-    // Address State
+    // States
+    // Address 
     const [addressVicinity, setAddressVicinity] = useState('')
+
+    // User Info
+    const [user, setUser] = useState({
+        displayName: '',
+        avatarUrl: ''
+    })
+
+    // Profile Menu
+    const [isProfileClicked, setIsProfileClicked] = useState(false);
+
+    // env Variables
+    const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
     // Variables
     let dateStartFormatted = formatDate(toggleComponents.calendar.selectedDayStart);
@@ -54,7 +68,7 @@ function Header({setSearchCriteria, searchCriteria}) {
         console.log("inside reset calendar handler")
         setToggleComponents({
             ...toggleComponents,
-            calendar:{...toggleComponents.calendar, selectedDayStart: '', selectedDayEnd: ''}
+            calendar: { ...toggleComponents.calendar, selectedDayStart: '', selectedDayEnd: '' }
         })
     }
 
@@ -62,16 +76,26 @@ function Header({setSearchCriteria, searchCriteria}) {
         e.stopPropagation();
         setToggleComponents({
             ...toggleComponents,
-            addPlayersCounter: {...toggleComponents.addPlayersCounter, count: 0}
+            addPlayersCounter: { ...toggleComponents.addPlayersCounter, count: 0 }
         })
     }
+
+    // UseEffects
+    // Fetch User info
+    useEffect(
+        () => {
+            (async () => {
+                let user = await axios.get(`${SERVER_URL}/users/profile`, { withCredentials: true }).then((res) => res.data);
+                setUser({ ...user, displayName: user['display_name'], avatarUrl: user['avatar_url'] });
+            })();
+        }, [])
 
     return (
         <>
             <header className="header" onClick={() => {
                 setToggleComponents({
                     ...toggleComponents,
-                    addPlayersCounter: { ...toggleComponents.addPlayersCounter, isToggled: false},
+                    addPlayersCounter: { ...toggleComponents.addPlayersCounter, isToggled: false },
                     calendar: { ...toggleComponents.calendar, isToggled: false }
                 })
             }}>
@@ -81,7 +105,7 @@ function Header({setSearchCriteria, searchCriteria}) {
                     </div>
                 </Link>
 
-                <div className="header__inputs-container-mobile" onClick={(e) => {e.stopPropagation()}}>
+                <div className="header__inputs-container-mobile" onClick={(e) => { e.stopPropagation() }}>
                     <div className="header__search-bar-mobile" onClick={() => { handleToggleClick('searchPopUp') }}>
                         <p className="header__search-bar-input">Where, when, add players</p>
                         <img className="header__icon header__icon--search" src={searchIconGrey} alt="search icon" />
@@ -96,7 +120,7 @@ function Header({setSearchCriteria, searchCriteria}) {
                     <div className="header__inputs-container-desktop" onClick={(e) => e.stopPropagation()}>
                         <div className="header__input-container-desktop header__input-container-desktop--location">
                             <label className="header__label">Where</label>
-                            <AddressSearch setAddressVicinity={setAddressVicinity}/>
+                            <AddressSearch setAddressVicinity={setAddressVicinity} />
                         </div>
                         <div className="header__input-container-desktop header__input-container-desktop--date" onClick={() => {
 
@@ -107,7 +131,7 @@ function Header({setSearchCriteria, searchCriteria}) {
                             })
                         }}>
 
-                            {(toggleComponents.calendar.selectedDayStart !== '' || toggleComponents.calendar.selectedDayEnd !== '') && <img src={exitIcon} className="header__exit-icon" alt="exit" onClick={(e) => resetCalendarHandler(e)}/>}
+                            {(toggleComponents.calendar.selectedDayStart !== '' || toggleComponents.calendar.selectedDayEnd !== '') && <img src={exitIcon} className="header__exit-icon" alt="exit" onClick={(e) => resetCalendarHandler(e)} />}
 
                             <label className="header__label">When</label>
                             {(toggleComponents.calendar.selectedDayStart === '' && toggleComponents.calendar.selectedDayEnd === '') && <p className="header__input-text-desktop">choose dates</p>}
@@ -124,7 +148,7 @@ function Header({setSearchCriteria, searchCriteria}) {
                         }}>
                             <label className="header__label">Who</label>
 
-                            {toggleComponents.addPlayersCounter.count !== 0 && <img src={exitIcon} className="header__exit-icon header__exit-icon--players" alt="exit" onClick={(e) => resetPlayerCounterHandler(e)}/>}
+                            {toggleComponents.addPlayersCounter.count !== 0 && <img src={exitIcon} className="header__exit-icon header__exit-icon--players" alt="exit" onClick={(e) => resetPlayerCounterHandler(e)} />}
                             {toggleComponents.addPlayersCounter.count !== 0 ? <p className="header__input-text-desktop">{toggleComponents.addPlayersCounter.count} players</p> : <p className="header__input-text-desktop">add players</p>}
 
                             <div className="header__search-cta" onClick={searchHandler}>
@@ -144,13 +168,24 @@ function Header({setSearchCriteria, searchCriteria}) {
                 </div>
 
                 <div className="header__host-game">
-                    <Link to={`/host-game`}>
-                    <p className="header__text">Host a game</p>
-                    </Link>
-                    <div className="header__profile">
-                        <div className="header__profile-icon"></div>
+                    <div className="header__host-game-cta">
+                        <Link to={`/host-game`}>
+                            <p className="header__text">Host a game</p>
+                        </Link>
+                        <div className="header__profile">
+                            <div className="header__profile-icon" onClick={() => {setIsProfileClicked(isProfileClicked ? false : true)}}>
+                                <img className="header_profile-image" src={user.avatarUrl} alt="avatar image" />
+                            </div>
+                        </div>
                     </div>
+                    
+                    {isProfileClicked ? <div className="header__profile-menu">
+                        <p className="header__text header__text--small">{user.displayName}</p>
+                        <p className="header__text header__text--small header__text--cta">Logout</p>
+                    </div> : null}
+
                 </div>
+
             </header>
 
             <div className="header__border"></div>

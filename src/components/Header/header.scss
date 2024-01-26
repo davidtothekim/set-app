@@ -239,7 +239,14 @@
 
 	&__host-game {
 		display: flex;
+		flex-direction: column;
 		height: 4rem;
+	}
+
+	&__host-game-cta {
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
 	}
 
 	&__text {
@@ -287,7 +294,7 @@
 		@include u.desktop {
 			display: flex;
 			align-items: center;
-			gap: 2rem;
+			gap: 1rem;
 		}
 	}
 
@@ -307,6 +314,24 @@
 		width: 2.9rem;
 		border-radius: 50%;
 		background-color: #d9d9d9;
+
+		:hover {
+			opacity: 0.5;
+			cursor: pointer;
+		}
+	}
+
+	&___profile-image {
+	}
+
+	&__profile-menu {
+		border: 1px solid #d9d9d9;
+		border-radius: 20px;
+		padding: 20px;
+		margin-left: auto;
+		margin-right: 0;
+		z-index: 4;
+		background-color: white;
 	}
 
 	&__add-players {
@@ -326,6 +351,16 @@
 		margin: 0;
 		font-weight: 500;
 		color: #1f5389;
+
+		&--small {
+			font-size: 1.2rem;
+		}
+
+		&--cta {
+			:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 
 	&__desktop-container {
