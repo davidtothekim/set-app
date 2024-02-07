@@ -27,7 +27,7 @@ function EventCard({game}) {
 
                     <div className="event-card__banner event-card__banner--bottom">
                         <img className="event-card__icon" src={coedIcon} />
-                        <p className="event-card__price">{`$${game.price.toFixed(2)}/per player`}</p>
+                        <p className="event-card__price">{`$${parseFloat(game.price).toFixed(2)}/per player`}</p>
                     </div>
                 </div>
                 <div className="event-card__footer">

@@ -25,7 +25,7 @@ const loadScript = (url, callback) => {
   document.getElementsByTagName("head")[0].appendChild(script);
 };
 
-const SearchLocationInput = ({ setSelectedLocation, setAddressVicinity }) => {
+const SearchLocationInput = ({ setSelectedLocation, setUserform, userForm, setAddressVicinity }) => {
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -54,18 +54,20 @@ const SearchLocationInput = ({ setSelectedLocation, setAddressVicinity }) => {
     }
 
     let queryFormatted = querySplitFiltered.join(',')
+    let name = addressObject.name || '';
 
+    updateQuery(`${name}: ${queryFormatted}`);
+    setAddressVicinity && setAddressVicinity(addressObject.vicinity);
 
-    updateQuery(queryFormatted);
-    setAddressVicinity(addressObject.vicinity);
-    console.log({ query });
+    // setUserform && setUserform({...userForm, address: queryFormatted, location: (addressObject.name || '')})
 
     const latLng = {
       lat: addressObject?.geometry?.location?.lat(),
       lng: addressObject?.geometry?.location?.lng(),
     };
 
-    console.log({ latLng });
+    // console.log({ latLng });
+
     setSelectedLocation(latLng);
   };
 
@@ -84,6 +86,7 @@ const SearchLocationInput = ({ setSelectedLocation, setAddressVicinity }) => {
         onChange={(event) => setQuery(event.target.value)}
         placeholder="add location"
         value={query}
+        id="address"
       />
     </div>
   );

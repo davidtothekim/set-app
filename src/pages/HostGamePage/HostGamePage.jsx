@@ -13,9 +13,10 @@ import HostGameForm from '../../components/HostGameForm/HostGameForm';
 
 // Helpers
 import pageContents from '../../utils/hostGamePageContent';
+import formatDate from '../../utils/formatDate';
 
 // Dependencies
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -33,18 +34,24 @@ function HostGamePage() {
 	// State to track values of the form
 	const [userForm, setUserform] = useState({
 		title: '',
-		players: null,
-		cost: null,
-		skillLevel: '',
-		type: '',
+		description: '',
+		price: null,
+		skill_level: '',
+		court: '',
 		gender: '',
 		date: '',
-		startTime: '',
-		endTime: '',
+		start_time: '',
+		end_time: '',
 		address: '',
-		details: '',
-		hostMessage: '',
-		isSubmitted: false
+		cancellation_policy: '',
+		isSubmitted: false,
+		host_id: '',
+		location: '',
+		players_current: 0,
+		players_limit: null,
+		poster_url: 'https://images.pexels.com/photos/6203559/pexels-photo-6203559.jpeg',
+		service_fee: 2.5,
+
 	});
 
 	// Refs
@@ -53,8 +60,52 @@ function HostGamePage() {
 	// Functions
 	// Event Handlers
 	const handleClickNext = () => {
-		if (!validateForm(formRef.current)) return alert('Please make sure you have completed all input fields!');
-		setUserStage((userStage) => userStage + 1);
+		// if (!validateForm(formRef.current)) return alert('Please make sure you have completed all input fields!');
+
+		let userFormValues = {};
+
+		for (let input of formRef.current) {
+			let key = input.id;
+			let value = input.value;
+
+			// Format date before storing it
+			if (key === 'date') {
+
+				let date = new Date(`${value}T00:00:00-05:00`);
+				value = date.toLocaleDateString('en-us', {month: '2-digit', day: '2-digit', year: 'numeric'})
+			}
+
+			if (key === 'price' || key === 'players_limit') {
+				value = parseFloat(value);
+			}
+
+			// Format start time and end time before storing it
+			if (key === 'end_time' || key === 'start_time') {
+				let hour = parseInt(value.split(":")[0])
+				let minutes = value.split(":")[1];
+				value = hour - 12 >= 0 ? `${hour-12}:${minutes}pm` : `${hour}:${minutes}pm`
+			}
+
+			// Update userFormValues with input values
+			userFormValues[key] = value
+		}
+
+		// Check userStage to determine whether the form has been submitted or not
+		// if (userStage === 2) {
+		// 	console.log("here")
+		// 	setUserform({...userForm, ...userFormValues, isSubmitted: true})
+		// 	handleCreateGame();
+		// 	return;
+		// } else {
+		// 	setUserStage((userStage) => userStage + 1);
+		// }
+
+		if (userStage === 2) {
+			setUserform({...userForm, ...userFormValues, isSubmitted: true});
+		} else {
+			setUserStage((userStage) => userStage + 1);
+			setUserform({...userForm, ...userFormValues})
+		}
 	};
 
 	const handleClickBack = () => {
@@ -65,6 +116,18 @@ function HostGamePage() {
 		navigate('/');
 	};
 
+	const handleCreateGame = async () => {
+
+		let location = userForm.address.split(':')[0];
+		let address = userForm.address.split(':')[1];
+
+		await axios.post(`${SERVER_URL}/games`, {
+			...userForm,
+			address: address,
+			location: location
+		})
+
+	}
 	// Create Progress Bar
 	const createProgressBar = (userStage) => {
 		return (
@@ -95,6 +158,25 @@ function HostGamePage() {
 			return true;
 		}
 	};
+
+	//UseEffects
+	// Fetch User info
+		useEffect(
+			() => {
+				(async () => {
+					let user = await axios.get(`${SERVER_URL}/users/profile`, { withCredentials: true }).then((res) => res.data);
+					setUserform({ ...userForm, host_id: user.google_id });
+				})();
+			}, [])
+	// POST request once form is submitted
+		useEffect(
+			() => {
+				if (userForm.isSubmitted ) {
+					console.log(userForm);
+					handleCreateGame();
+				}
+			}, [userForm]
+		)
 
 	return (
 		<div className="host-game-page">
@@ -171,3 +253,5 @@ function HostGamePage() {
 }
 
 export default HostGamePage;
+
+// onClick={(userStage === 2) ? handleCreateGame : handleClickNext}

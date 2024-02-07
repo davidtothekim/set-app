@@ -60,7 +60,7 @@ function GameInfoPage() {
 			setGame({
 				user: user,
 				...game,
-				price: game.price.toFixed(2),
+				price: parseFloat(game.price).toFixed(2),
 				service_fee: game['service_fee'].toFixed(2),
 				total_price: (game.price + game['service_fee']).toFixed(2),
 				date: moment(game.date, 'M/D/Y').format('dddd MMMM D Y')

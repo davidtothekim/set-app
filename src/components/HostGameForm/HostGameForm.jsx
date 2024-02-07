@@ -5,26 +5,19 @@ import './host-game-form.scss';
 import calendarIcon from '../../assets/icons/calendar-icon-lightgrey.svg';
 import searchIcon from '../../assets/icons/search-icon-darkgrey.svg';
 
+// Components
+import AddressSearch from '../AddressSearch/AddressSearch';
+
 // Helpers
 import formatDate from '../../utils/formatDate';
 
 function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 
-	// Event Handlers
-	const formOnChangeHandler = (e) =>  {
-		let key = e.target.id;
+	const onChangeHandler = (e) => {
 		let value = e.target.value;
 
-		key === 'date' ? value = formatDate(value) : value 
-
-		if (key === 'endTime' || key === 'startTime') {
-			let hour = parseInt(value.split(":")[0])
-			let minutes = value.split(":")[1];
-			value = hour - 12 >= 0 ? `${hour-12}:${minutes} PM` : `${hour}:${minutes} AM`
-		}
-		setUserform({...userForm, [key]: value})
+		e.target.value = value;
 	}
-
 
 	if (stage === 0) {
 		return (
@@ -37,20 +30,20 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 					</div>
 
 					<div className="host-game-form__input-container">
-						<input type="text" placeholder="Title" id="title" defaultValue={userForm.title} onChange={formOnChangeHandler} required></input>
+						<input type="text" placeholder="Title" id="title" defaultValue={userForm.title} onChange={onChangeHandler} required></input>
 					</div>
 
 					<div className="host-game-form__row">
 						<div className="host-game-form__input-container">
-							<input type="number" placeholder="# of players" min="12" max="36" id="players" defaultValue={userForm.players} onChange={formOnChangeHandler}/>
+							<input type="number" placeholder="# of players" min="12" max="36" id="players_limit" defaultValue={userForm.players} onChange={onChangeHandler}/>
 						</div>
 						<div className="host-game-form__input-container host-game-form__input-container--right">
-							<input type="number" placeholder="Cost per player" id="cost" min="0" defaultValue={`{userForm.cost}`} onChange={formOnChangeHandler}/>
+							<input type="number" placeholder="Cost per player" id="price" min="0" defaultValue={`{userForm.cost}`} onChange={onChangeHandler}/>
 						</div>
 					</div>
 
 					<div className="host-game-form__input-container">
-						<select id="skillLevel" onChange={formOnChangeHandler} >
+						<select id="skill_level" onChange={onChangeHandler} >
 							<option value="" selected disabled hidden>Skill Level</option>
 							<option value="recreational">Recreational</option>
 							<option value="beginner">Beginner</option>
@@ -61,7 +54,7 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 
 					<div className="host-game-form__row">
 						<div className="host-game-form__input-container">
-							<select id="type" onChange={formOnChangeHandler}>
+							<select id="court" onChange={onChangeHandler}>
 								<option value="" selected disabled hidden>Type</option>
 								<option value="Indoor">Indoor</option>
 								<option value="Beach">Beach</option>
@@ -70,7 +63,7 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 						</div>
 
 						<div className="host-game-form__input-container host-game-form__input-container--right">
-							<select id="gender" onChange={formOnChangeHandler}>
+							<select id="gender" onChange={onChangeHandler}>
 								<option value="" selected disabled hidden>Gender</option>
 								<option value="coed">Coed</option>
 								<option value="mens">Mens</option>
@@ -94,7 +87,7 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 					</div>
 
 					<div className="host-game-form__input-container">
-						<input type="date" placeholder="Date" id="date" defaultValue={""} onChange={formOnChangeHandler}/>
+						<input type="date" placeholder="Date" id="date" defaultValue={""} onChange={onChangeHandler}/>
 						<img
 							className="host-game-form__icon host-game-form__icon--right"
 							src={calendarIcon}
@@ -104,16 +97,16 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 
 					<div className="host-game-form__row">
 						<div className="host-game-form__input-container">
-							<input type="time" placeholder="Start time" id="startTime" onChange={formOnChangeHandler}/>
+							<input type="time" placeholder="Start time" id="start_time" onChange={onChangeHandler}/>
 						</div>
 						<div className="host-game-form__input-container host-game-form__input-container--right">
-							<input type="time" placeholder="End time" id="endTime" onChange={formOnChangeHandler} />
+							<input type="time" placeholder="End time" id="end_time" onChange={onChangeHandler} />
 						</div>
 					</div>
 
 					<div className="host-game-form__input-container host-game-form__input-container--search">
 						<img className="host-game-form__icon host-game-form__icon--left" src={searchIcon} alt="search" />
-						<input type="text" placeholder="Search for court or address" id="address" onChange={formOnChangeHandler} />
+						<AddressSearch setUserform={setUserform} userForm={userForm}/>
 					</div>
 				</form>
 			</>
@@ -131,16 +124,16 @@ function HostGameForm({ stage, userForm, setUserform, innerRef }) {
 					</div>
 
 					<textarea
-						id="details"
+						id="description"
 						className="host-game-form__textarea host-game-form__textarea--long"
 						placeholder="More details"
-						onChange={formOnChangeHandler}
+						onChange={onChangeHandler}
 					/>
 					<textarea
-						id="hostMessage"
-						onChange={formOnChangeHandler}
+						id="cancellation_policy"
+						onChange={onChangeHandler}
 						className="host-game-form__textarea host-game-form__textarea--medium"
-						placeholder="Message from host"
+						placeholder="Cancellation policy"
 					/>
 				</form>
 			</>
