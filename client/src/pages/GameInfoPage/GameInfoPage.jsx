@@ -34,9 +34,18 @@ function GameInfoPage() {
 
 	// State for the game that should be displayed on the page
 	const [ game, setGame ] = useState({
-		user: {}
+		user: {
+			avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c',
+			display_name: 'David Kim',
+			google_id: '101668191479577070173'
+		}
 	});
 
+	let user = {
+		avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c',
+		display_name: 'David Kim',
+		google_id: '101668191479577070173'
+	};
 	// State for whether a user has joined the game
 	const [ gameJoined, setGameJoined ] = useState(false);
 
@@ -56,7 +65,7 @@ function GameInfoPage() {
 	useEffect(() => {
 		(async () => {
 			let game = await axios.get(`${SERVER_URL}/games/${gameId}`).then((res) => res.data[0]);
-			let user = await axios.get(`${SERVER_URL}/users/${game.host_id}`).then((res) => res.data[0]);
+			// let user = await axios.get(`${SERVER_URL}/users/${game.host_id}`).then((res) => res.data[0]);
 			setGame({
 				user: user,
 				...game,

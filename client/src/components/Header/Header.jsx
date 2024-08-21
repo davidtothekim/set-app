@@ -19,7 +19,6 @@ import { ToggleComponentsContext } from '../../context/ToggleComponentsContext';
 
 // Helper
 import formatDate from '../../utils/formatDate';
-import axios from 'axios';
 
 function Header({ setSearchCriteria, searchCriteria }) {
 
@@ -32,8 +31,8 @@ function Header({ setSearchCriteria, searchCriteria }) {
 
     // User Info
     const [user, setUser] = useState({
-        displayName: '',
-        avatarUrl: ''
+        displayName: 'David Kim',
+        avatarUrl: 'https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c'
     })
 
     // Profile Menu
@@ -82,13 +81,13 @@ function Header({ setSearchCriteria, searchCriteria }) {
 
     // UseEffects
     // Fetch User info
-    useEffect(
-        () => {
-            (async () => {
-                let user = await axios.get(`${SERVER_URL}/users/profile`, { withCredentials: true }).then((res) => res.data);
-                setUser({ ...user, displayName: user['display_name'], avatarUrl: user['avatar_url'] });
-            })();
-        }, [])
+    // useEffect(
+    //     () => {
+    //         (async () => {
+    //             let user = await axios.get(`${SERVER_URL}/users/profile`, { withCredentials: true }).then((res) => res.data);
+    //             setUser({ ...user, displayName: user['display_name'], avatarUrl: user['avatar_url'] });
+    //         })();
+    //     }, [])
 
     return (
         <>

@@ -12,7 +12,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToggleComponentsContext } from './context/ToggleComponentsContext';
-import axios from 'axios'
 
 // Helpers
 import createDateObj from './utils/createDate';
@@ -93,7 +92,8 @@ function App() {
 		>
 			<BrowserRouter>
 				<Routes>
-					<Route
+					{/* Routes with Authentication */}
+					{/* <Route
 						path="/"
 						element={
 							<ProtectedRoute isAuthenticated={isAuthenticated} >
@@ -116,6 +116,31 @@ function App() {
 							<ProtectedRoute isAuthenticated={isAuthenticated}>
 								<HostGamePage  />
 							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/game/:gameId"
+						element={<GameInfoPage />}
+					/> */}
+
+
+
+
+					<Route
+						path="/"
+						element={
+								<HomePage />
+
+						}
+					/>
+					<Route
+						path="/game/:gameId"
+						element={<GameInfoPage />}
+					/>
+					<Route
+						path="/host-game"
+						element={
+								<HostGamePage  />
 						}
 					/>
 				</Routes>
