@@ -49,6 +49,6 @@ app.get('/*', function(req, res) {
 	});
 });
 
-app.listen(PORT, hostname, () => {
+app.listen(PORT, () => {
 	console.log(`🚀 Server listening on port ${PORT}.`);
 });
