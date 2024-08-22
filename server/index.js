@@ -1,7 +1,7 @@
 const express = require('express');
 const Server = require('socket.io').Server;
 const http = require('http');
-const hostname = 'ec2-3-17-28-169.us-east-2.compute.amazonaws.com';
+// const hostname = 'ec2-3-17-28-169.us-east-2.compute.amazonaws.com';
 
 // Create Express app and also allow for app PORT to be optionally specified by an environment variable
 const app = express();
@@ -50,6 +50,5 @@ app.get('/*', function(req, res) {
 });
 
 app.listen(PORT, hostname, () => {
-	// console.log(`🚀 Server listening on port ${PORT}.`);
-	console.log(`Server running at http://${hostname}:${port}/`);
+	console.log(`🚀 Server listening on port ${PORT}.`);
 });
