@@ -27,8 +27,6 @@ function HomePage() {
     // env Variables
     const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-    console.log(SERVER_URL)
-
     // ToggleComponents Context
     let { toggleComponents, handleToggleClick} = useContext(ToggleComponentsContext);
 
