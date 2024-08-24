@@ -36,7 +36,7 @@ function GameInfoPage() {
 	};
 
 	// Express Server URL
-	const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+	const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 	// State for the game that should be displayed on the page
 	const [ game, setGame ] = useState({});
