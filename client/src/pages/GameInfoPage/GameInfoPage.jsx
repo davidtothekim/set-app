@@ -29,23 +29,18 @@ function GameInfoPage() {
 	// Capture game id from URL
 	const { gameId } = useParams();
 
-	// Express Server URL
-	const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
-
-	// State for the game that should be displayed on the page
-	const [ game, setGame ] = useState({
-		user: {
-			avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c',
-			display_name: 'David Kim',
-			google_id: '101668191479577070173'
-		}
-	});
-
-	let user = {
+	const user = {
 		avatar_url: 'https://lh3.googleusercontent.com/a/ACg8ocKvyuvKyIeFu6PUTBE7Mf2M_dPwiVgOqTZPeKYWMc5zJw=s96-c',
 		display_name: 'David Kim',
 		google_id: '101668191479577070173'
 	};
+
+	// Express Server URL
+	const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+
+	// State for the game that should be displayed on the page
+	const [ game, setGame ] = useState({});
+
 	// State for whether a user has joined the game
 	const [ gameJoined, setGameJoined ] = useState(false);
 
@@ -67,7 +62,6 @@ function GameInfoPage() {
 			let game = await axios.get(`${SERVER_URL}/games/${gameId}`).then((res) => res.data[0]);
 			// let user = await axios.get(`${SERVER_URL}/users/${game.host_id}`).then((res) => res.data[0]);
 			setGame({
-				user: user,
 				...game,
 				price: parseFloat(game.price).toFixed(2),
 				service_fee: game['service_fee'].toFixed(2),
@@ -135,11 +129,11 @@ function GameInfoPage() {
 						<div
 							className="game-info-page__host-avatar"
 							style={{
-								backgroundImage: `url(${game.user.avatar_url})`
+								backgroundImage: `url(${user.avatar_url})`
 							}}
 						/>
 						<div className="game-info-page__host-info">
-							<p className="game-info-page__text game-info-page__text--bold">{game.user.display_name}</p>
+							<p className="game-info-page__text game-info-page__text--bold">{user.display_name}</p>
 							<p className="game-info-page__text">
 								Host{' '}
 								<span className="game-info-page__text game-info-page__text--gray game-info-page__text--small">
