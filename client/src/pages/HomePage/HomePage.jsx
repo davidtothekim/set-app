@@ -25,7 +25,9 @@ import formatDate from '../../utils/formatDate';
 function HomePage() {
 
     // env Variables
-    const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+    console.log(SERVER_URL)
 
     // ToggleComponents Context
     let { toggleComponents, handleToggleClick} = useContext(ToggleComponentsContext);
@@ -90,6 +92,7 @@ function HomePage() {
         () => {
             (async () => {
                 let games = await axios.get(`${SERVER_URL}/games`).then((res) => res.data);
+                console.log(SERVER_URL)
                 setGamesList(games)
             })();
         }, [])
